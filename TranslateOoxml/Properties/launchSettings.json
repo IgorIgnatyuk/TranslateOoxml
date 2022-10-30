@@ -2,15 +2,18 @@
   "profiles": {
     "DOCX": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.docx DE"
+      "commandLineArgs": ".\\Info.docx DE",
+      "workingDirectory": "$(SolutionDir)"
     },
     "PPTX": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.pptx DE"
+      "commandLineArgs": ".\\Info.pptx DE",
+      "workingDirectory": "$(SolutionDir)"
     },
     "XLSX": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.xlsx DE"
+      "commandLineArgs": ".\\Info.xlsx DE",
+      "workingDirectory": "$(SolutionDir)"
     },
     "Help": {
       "commandName": "Project"
