@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "DOCX": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.docx DE"
+    },
+    "PPTX": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.pptx DE"
+    },
+    "XLSX": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.xlsx DE"
+    }
+  }
+}
