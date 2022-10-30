@@ -56,8 +56,9 @@ if (args.Length == 2)
 
         var extension = GetExtension(sourcePath);
         var targetLanguage = args[1];
+        var directory = GetDirectoryName(sourcePath);
         var targetPath =
-            GetDirectoryName(sourcePath) + '\\' +
+            directory != null && directory.Length > 0 ? directory + '\\' : "" +
             GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + extension;
 
         Copy(sourcePath, targetPath, true);
