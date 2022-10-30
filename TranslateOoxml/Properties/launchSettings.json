@@ -11,6 +11,9 @@
     "XLSX": {
       "commandName": "Project",
       "commandLineArgs": "C:\\Users\\igor_\\Documents\\Test.xlsx DE"
+    },
+    "Help": {
+      "commandName": "Project"
     }
   }
 }
