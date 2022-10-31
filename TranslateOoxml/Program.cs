@@ -110,6 +110,6 @@ else
         $"Syntax: {GetFileNameWithoutExtension(ProcessPath)} sourceFile targetLanguageCode\n\n" +
         "The source file can be a .docx, .pptx, or .xlsx one.\n\n" +
         "The target file will appear in the same folder where the source file resides.\n" +
-        "The target file name will have the target language as a suffix.\n\n" +
+        "The target file name will have the target language code as a suffix.\n\n" +
         "Language codes: https://www.deepl.com/docs-api/translate-text/translate-text/\n\n" +
         $"The environment variable {DeepLAuthKey} should be set.\n");
