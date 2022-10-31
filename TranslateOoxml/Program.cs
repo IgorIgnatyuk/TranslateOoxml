@@ -47,6 +47,43 @@ static async Task<string> Translate(string text, string targetLanguage)
         throw new Exception("Unexpected result");
 }
 
+static async Task TranslateZipArchiveEntry(ZipArchiveEntry entry, string targetLanguage)
+{
+    WriteZipArchiveEntry(
+        entry,
+        await Translate(ReadZipArchiveEntry(entry), targetLanguage));
+}
+
+static async Task TranslateOoxmlModifying(string path, string targetLanguage)
+{
+    using var zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
+    switch (GetExtension(path).ToLower())
+    {
+        case ".docx":
+            {
+                var entry = zipArchive.GetEntry("word/document.xml");
+                if (entry != null)
+                    await TranslateZipArchiveEntry(entry, targetLanguage);
+            }
+            break;
+        case ".pptx":
+            foreach (var entry in zipArchive.Entries)
+                if (entry.FullName.StartsWith("ppt/slides/slide"))
+                    await TranslateZipArchiveEntry(entry, targetLanguage);
+            break;
+        case ".xlsx":
+            {
+                var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
+                if (entry != null)
+                    await TranslateZipArchiveEntry(entry, targetLanguage);
+            }
+            break;
+        default:
+            Console.Error.WriteLine("Unsupported file format");
+            break;
+    }
+}
+
 static async Task TranslateOoxml(string sourcePath, string targetLanguage)
 {
     if (!File.Exists(sourcePath))
@@ -58,38 +95,7 @@ static async Task TranslateOoxml(string sourcePath, string targetLanguage)
         GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + extension);
 
     Copy(sourcePath, targetPath, true);
-    using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
-    switch (extension.ToLower())
-    {
-        case ".docx":
-            {
-                var entry = zipArchive.GetEntry("word/document.xml");
-                if (entry != null)
-                    WriteZipArchiveEntry(
-                        entry,
-                        await Translate(ReadZipArchiveEntry(entry), targetLanguage));
-            }
-            break;
-        case ".pptx":
-            foreach (var entry in zipArchive.Entries)
-                if (entry.FullName.StartsWith("ppt/slides/slide"))
-                    WriteZipArchiveEntry(
-                        entry,
-                        await Translate(ReadZipArchiveEntry(entry), targetLanguage));
-            break;
-        case ".xlsx":
-            {
-                var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
-                if (entry != null)
-                    WriteZipArchiveEntry(
-                        entry,
-                        await Translate(ReadZipArchiveEntry(entry), targetLanguage));
-            }
-            break;
-        default:
-            Console.Error.WriteLine("Unsupported file format");
-            break;
-    }
+    await TranslateOoxmlModifying(targetPath, targetLanguage);
 }
 
 if (args.Length == 2)
