@@ -88,10 +88,9 @@ static async Task TranslateOoxml(string sourcePath, string targetLanguage)
     if (!File.Exists(sourcePath))
         throw new FileNotFoundException(null, sourcePath);
 
-    var extension = GetExtension(sourcePath);
     var targetPath = Join(
         GetDirectoryName(sourcePath),
-        GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + extension);
+        GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + GetExtension(sourcePath));
 
     Copy(sourcePath, targetPath, true);
     await TranslateOoxmlModifying(targetPath, targetLanguage);
