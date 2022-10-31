@@ -79,8 +79,7 @@ static async Task TranslateOoxmlModifying(string path, string targetLanguage)
             }
             break;
         default:
-            Console.Error.WriteLine("Unsupported file format");
-            break;
+            throw new Exception("Unsupported file format");
     }
 }
 
