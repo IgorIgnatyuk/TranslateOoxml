@@ -8,18 +8,6 @@ using static System.IO.Path;
 
 using static Constants;
 
-static string ReadZipArchiveEntry(ZipArchiveEntry zipArchiveEntry)
-{
-    using var reader = new StreamReader(zipArchiveEntry.Open());
-    return reader.ReadToEnd();
-}
-
-static void WriteZipArchiveEntry(ZipArchiveEntry zipArchiveEntry, string contents)
-{
-    using var writer = new StreamWriter(zipArchiveEntry.Open());
-    writer.Write(contents);
-}
-
 static async Task<string> Translate(string text, string targetLanguage)
 {
     var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
@@ -45,6 +33,18 @@ static async Task<string> Translate(string text, string targetLanguage)
         return result.Translations[0].Text;
     else
         throw new Exception("Unexpected result");
+}
+
+static string ReadZipArchiveEntry(ZipArchiveEntry zipArchiveEntry)
+{
+    using var reader = new StreamReader(zipArchiveEntry.Open());
+    return reader.ReadToEnd();
+}
+
+static void WriteZipArchiveEntry(ZipArchiveEntry zipArchiveEntry, string contents)
+{
+    using var writer = new StreamWriter(zipArchiveEntry.Open());
+    writer.Write(contents);
 }
 
 static async Task TranslateZipArchiveEntry(ZipArchiveEntry entry, string targetLanguage)
