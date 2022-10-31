@@ -53,10 +53,9 @@ static async Task TranslateOoxml(string sourcePath, string targetLanguage)
         throw new FileNotFoundException(null, sourcePath);
 
     var extension = GetExtension(sourcePath);
-    var directory = GetDirectoryName(sourcePath);
-    var targetPath =
-        directory != null && directory.Length > 0 ? directory + '\\' : "" +
-        GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + extension;
+    var targetPath = Join(
+        GetDirectoryName(sourcePath),
+        GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + extension);
 
     Copy(sourcePath, targetPath, true);
     using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
