@@ -37,13 +37,15 @@ static async Task<string> Translate(string text, string targetLanguage)
 
 static string ReadZipArchiveEntry(ZipArchiveEntry zipArchiveEntry)
 {
-    using var reader = new StreamReader(zipArchiveEntry.Open());
+    using var stream = zipArchiveEntry.Open();
+    using var reader = new StreamReader(stream);
     return reader.ReadToEnd();
 }
 
 static void WriteZipArchiveEntry(ZipArchiveEntry zipArchiveEntry, string contents)
 {
-    using var writer = new StreamWriter(zipArchiveEntry.Open());
+    using var stream = zipArchiveEntry.Open();
+    using var writer = new StreamWriter(stream);
     writer.Write(contents);
 }
 
