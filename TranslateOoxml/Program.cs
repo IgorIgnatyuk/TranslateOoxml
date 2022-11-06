@@ -1,12 +1,10 @@
 ﻿using System.IO.Compression;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-
+using static Constants;
 using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
-
-using static Constants;
 using static ZipArchiveEntryExtensions.Extensions;
 
 static async Task<string> Translate(string text, string targetLanguage)
