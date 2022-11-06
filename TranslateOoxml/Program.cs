@@ -36,10 +36,8 @@ static async Task<string> Translate(string text, string targetLanguage)
         throw new Exception("Unexpected result");
 }
 
-static async Task TranslateOoxmlModifying(string path, string targetLanguage)
+static async Task TranslateOoxmlModifying(string path, Func<string, Task<string>> translate)
 {
-    var translate = async (string text) => await Translate(text, targetLanguage);
-
     using var zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
     switch (GetExtension(path).ToLower())
     {
@@ -77,7 +75,9 @@ static async Task TranslateOoxml(string sourcePath, string targetLanguage)
         GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + GetExtension(sourcePath));
 
     Copy(sourcePath, targetPath, true);
-    await TranslateOoxmlModifying(targetPath, targetLanguage);
+    await TranslateOoxmlModifying(
+        targetPath,
+        async (string text) => await Translate(text, targetLanguage));
 }
 
 if (args.Length == 2)
