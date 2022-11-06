@@ -36,13 +36,17 @@ static async Task<string> Translate(string text, string targetLanguage)
         throw new Exception("Unexpected result");
 }
 
-static async Task TranslateZipArchiveEntry(ZipArchiveEntry entry, string targetLanguage)
+static async Task TranslateZipArchiveEntry(
+     ZipArchiveEntry entry,
+     Func<string, Task<string>> translate)
 {
-    entry.Write(await Translate(entry.Read(), targetLanguage));
+    entry.Write(await translate(entry.Read()));
 }
 
 static async Task TranslateOoxmlModifying(string path, string targetLanguage)
 {
+    var translate = async (string text) => await Translate(text, targetLanguage);
+
     using var zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
     switch (GetExtension(path).ToLower())
     {
@@ -50,19 +54,19 @@ static async Task TranslateOoxmlModifying(string path, string targetLanguage)
             {
                 var entry = zipArchive.GetEntry("word/document.xml");
                 if (entry != null)
-                    await TranslateZipArchiveEntry(entry, targetLanguage);
+                    await TranslateZipArchiveEntry(entry, translate);
             }
             break;
         case ".pptx":
             foreach (var entry in zipArchive.Entries)
                 if (entry.FullName.StartsWith("ppt/slides/slide"))
-                    await TranslateZipArchiveEntry(entry, targetLanguage);
+                    await TranslateZipArchiveEntry(entry, translate);
             break;
         case ".xlsx":
             {
                 var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
                 if (entry != null)
-                    await TranslateZipArchiveEntry(entry, targetLanguage);
+                    await TranslateZipArchiveEntry(entry, translate);
             }
             break;
         default:
