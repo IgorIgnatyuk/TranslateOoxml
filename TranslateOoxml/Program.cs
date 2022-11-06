@@ -83,7 +83,7 @@ if (args.Length == 2)
         await TranslateOoxml(
             sourcePath,
             targetPath,
-            async (string text) => await Translate(text, targetLanguage));
+            async (text) => await Translate(text, targetLanguage));
     }
     catch (Exception e)
     {
