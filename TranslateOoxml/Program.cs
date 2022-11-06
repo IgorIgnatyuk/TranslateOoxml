@@ -36,10 +36,17 @@ static async Task<string> Translate(string text, string targetLanguage)
         throw new Exception("Unexpected result");
 }
 
-static async Task TranslateOoxmlModifying(string path, Func<string, Task<string>> translate)
+static async Task TranslateOoxml(
+    string sourcePath,
+    string targetPath,
+    Func<string, Task<string>> translate)
 {
-    using var zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
-    switch (GetExtension(path).ToLower())
+    if (!File.Exists(sourcePath))
+        throw new FileNotFoundException(null, sourcePath);
+
+    Copy(sourcePath, targetPath, true);
+    using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
+    switch (GetExtension(targetPath).ToLower())
     {
         case ".docx":
             {
@@ -63,18 +70,6 @@ static async Task TranslateOoxmlModifying(string path, Func<string, Task<string>
         default:
             throw new Exception("Unsupported file format");
     }
-}
-
-static async Task TranslateOoxml(
-    string sourcePath,
-    string targetPath,
-    Func<string, Task<string>> translate)
-{
-    if (!File.Exists(sourcePath))
-        throw new FileNotFoundException(null, sourcePath);
-
-    Copy(sourcePath, targetPath, true);
-    await TranslateOoxmlModifying(targetPath, translate);
 }
 
 if (args.Length == 2)
