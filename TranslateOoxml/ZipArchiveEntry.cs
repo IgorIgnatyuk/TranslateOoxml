@@ -18,4 +18,10 @@ static class Extensions
         writer.Write(contents);
     }
 
+    public static async Task Translate(
+        this ZipArchiveEntry entry,
+        Func<string, Task<string>> translate)
+    {
+        entry.Write(await translate(entry.Read()));
+    }
 }
