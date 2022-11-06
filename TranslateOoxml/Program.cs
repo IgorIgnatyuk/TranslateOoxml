@@ -65,25 +65,32 @@ static async Task TranslateOoxmlModifying(string path, Func<string, Task<string>
     }
 }
 
-static async Task TranslateOoxml(string sourcePath, string targetLanguage)
+static async Task TranslateOoxml(
+    string sourcePath,
+    string targetPath,
+    Func<string, Task<string>> translate)
 {
     if (!File.Exists(sourcePath))
         throw new FileNotFoundException(null, sourcePath);
 
-    var targetPath = Join(
-        GetDirectoryName(sourcePath),
-        GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage + GetExtension(sourcePath));
-
     Copy(sourcePath, targetPath, true);
-    await TranslateOoxmlModifying(
-        targetPath,
-        async (string text) => await Translate(text, targetLanguage));
+    await TranslateOoxmlModifying(targetPath, translate);
 }
 
 if (args.Length == 2)
     try
     {
-        await TranslateOoxml(args[0], args[1]);
+        var sourcePath = args[0];
+        var targetLanguage = args[1];
+        var targetPath = Join(
+            GetDirectoryName(sourcePath),
+            GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage +
+            GetExtension(sourcePath));
+
+        await TranslateOoxml(
+            sourcePath,
+            targetPath,
+            async (string text) => await Translate(text, targetLanguage));
     }
     catch (Exception e)
     {
