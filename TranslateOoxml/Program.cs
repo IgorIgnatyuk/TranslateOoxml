@@ -7,6 +7,7 @@ using static System.IO.File;
 using static System.IO.Path;
 
 using static Constants;
+using static ZipArchiveEntryExtensions.Extensions;
 
 static async Task<string> Translate(string text, string targetLanguage)
 {
@@ -35,25 +36,9 @@ static async Task<string> Translate(string text, string targetLanguage)
         throw new Exception("Unexpected result");
 }
 
-static string ReadZipArchiveEntry(ZipArchiveEntry zipArchiveEntry)
-{
-    using var stream = zipArchiveEntry.Open();
-    using var reader = new StreamReader(stream);
-    return reader.ReadToEnd();
-}
-
-static void WriteZipArchiveEntry(ZipArchiveEntry zipArchiveEntry, string contents)
-{
-    using var stream = zipArchiveEntry.Open();
-    using var writer = new StreamWriter(stream);
-    writer.Write(contents);
-}
-
 static async Task TranslateZipArchiveEntry(ZipArchiveEntry entry, string targetLanguage)
 {
-    WriteZipArchiveEntry(
-        entry,
-        await Translate(ReadZipArchiveEntry(entry), targetLanguage));
+    entry.Write(await Translate(entry.Read(), targetLanguage));
 }
 
 static async Task TranslateOoxmlModifying(string path, string targetLanguage)
