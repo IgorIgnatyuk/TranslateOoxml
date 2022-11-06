@@ -39,7 +39,7 @@ static async Task TranslateOoxml(
     string targetPath,
     Func<string, Task<string>> translate)
 {
-    if (!File.Exists(sourcePath))
+    if (!Exists(sourcePath))
         throw new FileNotFoundException(null, sourcePath);
 
     Copy(sourcePath, targetPath, true);
