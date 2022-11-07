@@ -1,6 +1,6 @@
 ﻿namespace TranslateOoxml;
 
-class TranslateResult
+internal class TranslateResult
 {
     public class Translation
     {
