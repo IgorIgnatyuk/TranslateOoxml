@@ -1,11 +1,13 @@
 ﻿using System.IO.Compression;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using static Constants;
 using static System.Environment;
 using static System.IO.File;
 using static System.IO.Path;
-using static ZipArchiveEntryExtensions.Extensions;
+using static TranslateOoxml.Constants;
+using static TranslateOoxml.ZipArchiveEntryExtensions.Extensions;
+
+namespace TranslateOoxml;
 
 internal class Program
 {
@@ -20,11 +22,11 @@ internal class Program
             new AuthenticationHeaderValue("DeepL-Auth-Key", deepLAuthKey);
 
         using var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("text", text),
-                new KeyValuePair<string, string>("target_lang", targetLanguage),
-                new KeyValuePair<string, string>("tag_handling", "xml")
-            });
+        {
+            new KeyValuePair<string, string>("text", text),
+            new KeyValuePair<string, string>("target_lang", targetLanguage),
+            new KeyValuePair<string, string>("tag_handling", "xml")
+        });
         using var response =
             await client.PostAsync("https://api-free.deepl.com/v2/translate", httpContent);
 

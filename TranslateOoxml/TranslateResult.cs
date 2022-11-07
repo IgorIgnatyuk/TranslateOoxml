@@ -1,4 +1,6 @@
-﻿class TranslateResult
+﻿namespace TranslateOoxml;
+
+class TranslateResult
 {
     public class Translation
     {
