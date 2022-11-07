@@ -2,7 +2,7 @@
 
 namespace TranslateOoxml.ZipArchiveEntryExtensions;
 
-static class Extensions
+public static class Extensions
 {
     public static string Read(this ZipArchiveEntry zipArchiveEntry)
     {
