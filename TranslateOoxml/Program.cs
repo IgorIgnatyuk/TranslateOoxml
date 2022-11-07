@@ -9,7 +9,7 @@ using static TranslateOoxml.ZipArchiveEntryExtensions.Extensions;
 
 namespace TranslateOoxml;
 
-internal class Program
+internal static class Program
 {
     private static async Task<string> Translate(string text, string targetLanguage)
     {
