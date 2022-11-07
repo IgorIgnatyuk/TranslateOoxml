@@ -11,7 +11,7 @@ namespace TranslateOoxml;
 
 internal class Program
 {
-    public static async Task<string> Translate(string text, string targetLanguage)
+    private static async Task<string> Translate(string text, string targetLanguage)
     {
         var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
         if (deepLAuthKey == null)
@@ -38,7 +38,7 @@ internal class Program
             throw new Exception("Unexpected result");
     }
 
-    public static async Task TranslateOoxml(
+    private static async Task TranslateOoxml(
         string sourcePath,
         string targetPath,
         Func<string, Task<string>> translate)
