@@ -29,7 +29,8 @@ namespace TranslateOoxmlIntegrationTests
             TranslateDocument(
                 inputDir + filename,
                 outputDir + filename,
-                async (text) => await Translate(text, "DE")).Wait();
+                async (text) => await Translate(text, "DE"))
+                .Wait();
 
             Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
         }
