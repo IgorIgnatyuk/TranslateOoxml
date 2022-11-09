@@ -16,9 +16,10 @@ namespace TranslateOoxmlIntegrationTests
             using var stream1 = File.OpenRead(path1);
             using var stream2 = File.OpenRead(path2);
             int byte1, byte2;
-            while ((byte1 = stream1.ReadByte()) == (byte2 = stream2.ReadByte()) && byte1 != -1)
-                ;
-            return byte1 == -1 && byte2 == -1;
+            while ((byte1 = stream1.ReadByte()) == (byte2 = stream2.ReadByte()))
+                if (byte1 == -1)
+                    return true;
+            return false;
         }
 
         private static void Test_TranslateDocument(string filename)
