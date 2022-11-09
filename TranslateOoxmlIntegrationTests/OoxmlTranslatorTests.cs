@@ -7,13 +7,9 @@ namespace TranslateOoxmlIntegrationTests
     public class OoxmlTranslatorTests
     {
         private static readonly string testDir = "..\\..\\..\\TestDocuments\\";
-        private static readonly string inputFile = testDir + "Input\\Test";
+        private static readonly string inputDir = testDir + "Input\\";
         private static readonly string outputDir = testDir + "Output\\";
-        private static readonly string outputFile = outputDir + "Test";
-        private static readonly string expectedOutputFile = testDir + "ExpectedOutput\\Test";
-
-        private static readonly Func<string, Task<string>> translate =
-            async (text) => await Translate(text, "DE");
+        private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
         private static bool FilesAreEqual(string path1, string path2)
         {
@@ -25,34 +21,35 @@ namespace TranslateOoxmlIntegrationTests
             return byte1 == -1 && byte2 == -1;
         }
 
-        private static void EnsureExistingOutputDirectory()
+        private static void Test_TranslateDocument(string filename)
         {
             if (!Directory.Exists(outputDir))
                 Directory.CreateDirectory(outputDir);
+
+            TranslateDocument(
+                inputDir + filename,
+                outputDir + filename,
+                async (text) => await Translate(text, "DE")).Wait();
+
+            Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
         }
 
         [TestMethod]
         public void Test_TranslateDocument_Docx()
         {
-            EnsureExistingOutputDirectory();
-            TranslateDocument(inputFile + ".docx", outputFile + ".docx", translate).Wait();
-            Assert.IsTrue(FilesAreEqual(outputFile + ".docx", expectedOutputFile + ".docx"));
+            Test_TranslateDocument("Test.docx");
         }
 
         [TestMethod]
         public void Test_TranslateDocument_Pptx()
         {
-            EnsureExistingOutputDirectory();
-            TranslateDocument(inputFile + ".pptx", outputFile + ".pptx", translate).Wait();
-            Assert.IsTrue(FilesAreEqual(outputFile + ".pptx", expectedOutputFile + ".pptx"));
+            Test_TranslateDocument("Test.pptx");
         }
 
         [TestMethod]
         public void Test_TranslateDocument_Xlsx()
         {
-            EnsureExistingOutputDirectory();
-            TranslateDocument(inputFile + ".xlsx", outputFile + ".xlsx", translate).Wait();
-            Assert.IsTrue(FilesAreEqual(outputFile + ".xlsx", expectedOutputFile + ".xlsx"));
+            Test_TranslateDocument("Test.xlsx");
         }
     }
 }
