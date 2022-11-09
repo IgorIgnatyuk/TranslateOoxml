@@ -2,6 +2,7 @@
 using static System.IO.Path;
 using static TranslateOoxml.Constants;
 using static TranslateOoxml.DeepLTranslator;
+using static TranslateOoxml.OoxmlTranslator;
 
 namespace TranslateOoxml;
 
