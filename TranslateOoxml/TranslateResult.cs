@@ -1,5 +1,8 @@
 ﻿namespace TranslateOoxml;
 
+/// <summary>
+/// Result returned by the DeepL text-translation API.
+/// </summary>
 internal class TranslateResult
 {
     public class Translation
