@@ -5,8 +5,20 @@ using static TranslateOoxml.Constants;
 
 namespace TranslateOoxml
 {
+    /// <summary>
+    /// Text translator using DeepL API.
+    /// </summary>
     public static class DeepLTranslator
     {
+        /// <summary>
+        /// Translates a text.
+        /// </summary>
+        /// <param name="text">The text to translate.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <returns>The translated text.</returns>
+        /// <exception cref="Exception">
+        /// Thrown when the environment variable DEEPL_AUTH_KEY is not set.
+        /// </exception>
         public static async Task<string> Translate(string text, string targetLanguage)
         {
             var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);

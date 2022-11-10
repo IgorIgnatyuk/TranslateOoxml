@@ -5,8 +5,24 @@ using static TranslateOoxml.ZipArchiveEntryExtensions.Extensions;
 
 namespace TranslateOoxml
 {
+    /// <summary>
+    /// OOXML document translator using a callback to translate text.
+    /// </summary>
     public static class OoxmlTranslator
     {
+        /// <summary>
+        /// Translates an OOXML document as an asynchronous operation.
+        /// </summary>The task object representing the asynchronous operation.
+        /// <param name="sourcePath">The source document path.</param>
+        /// <param name="targetPath">The target document path.</param>
+        /// <param name="translate">The callback used for text translation.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// <exception cref="FileNotFoundException">
+        /// Thrown when the source document does not exist.
+        /// </exception>
+        /// <exception cref="Exception">
+        /// Thrown when the source document format is not supported.
+        /// </exception>
         public static async Task TranslateDocument(
             string sourcePath,
             string targetPath,
