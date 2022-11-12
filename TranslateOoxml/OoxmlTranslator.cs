@@ -12,7 +12,7 @@ public static class OoxmlTranslator
 {
     /// <summary>
     /// Translates an OOXML document as an asynchronous operation.
-    /// </summary>The task object representing the asynchronous operation.
+    /// </summary>
     /// <param name="sourcePath">The source document path.</param>
     /// <param name="targetPath">The target document path.</param>
     /// <param name="translate">The callback used for text translation.</param>
