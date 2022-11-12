@@ -32,7 +32,8 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Translates the content of a ZipArchiveEntry using a callback to translate text.
+    /// Translates the content of a ZipArchiveEntry as an asynchronous operation.
+    /// Uses a callback to translate text.
     /// </summary>
     /// <param name="entry">The ZipArchiveEntry.</param>
     /// <param name="translate">The callback used for text translation.</param>

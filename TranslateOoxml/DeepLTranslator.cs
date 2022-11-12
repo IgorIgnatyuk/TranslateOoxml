@@ -11,11 +11,13 @@ namespace TranslateOoxml;
 public static class DeepLTranslator
 {
     /// <summary>
-    /// Translates a text.
+    /// Translates a text as an asynchronous operation.
     /// </summary>
     /// <param name="text">The text to translate.</param>
     /// <param name="targetLanguage">The target language.</param>
-    /// <returns>The translated text.</returns>
+    /// <returns>
+    /// The task object representing the asynchronous operation that returns the translated text.
+    /// </returns>
     /// <exception cref="Exception">
     /// Thrown when the environment variable DEEPL_AUTH_KEY is not set.
     /// </exception>
