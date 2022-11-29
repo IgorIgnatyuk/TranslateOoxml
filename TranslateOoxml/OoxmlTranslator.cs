@@ -10,6 +10,63 @@ namespace TranslateOoxml;
 public static class OoxmlTranslator
 {
     /// <summary>
+    /// Checks if an OOXML ZipArchive is a DOCX one, and translates it if so.
+    /// </summary>
+    /// <param name="zipArchive">The OOXML ZipArchive.</param>
+    /// <param name="translate">The callback used for text translation.</param>
+    /// <returns><c>true</c> if the ZipArchive is a DOCX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslateDocxZipArchive(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        var entry = zipArchive.GetEntry("word/document.xml");
+        if (entry == null)
+            return false;
+
+        await entry.Translate(translate);
+        return true;
+    }
+
+    /// <summary>
+    /// Checks if an OOXML ZipArchive is a PPTX one, and translates it if so.
+    /// </summary>
+    /// <param name="zipArchive">The OOXML ZipArchive.</param>
+    /// <param name="translate">The callback used for text translation.</param>
+    /// <returns><c>true</c> if the ZipArchive is a PPTX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslatePptxZipArchive(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        var slideFound = false;
+        foreach (var entry in zipArchive.Entries)
+            if (entry.FullName.StartsWith("ppt/slides/slide"))
+            {
+                slideFound = true;
+                await entry.Translate(translate);
+            }
+
+        return slideFound;
+    }
+
+    /// <summary>
+    /// Checks if an OOXML ZipArchive is a XLSX one, and translates it if so.
+    /// </summary>
+    /// <param name="zipArchive">The OOXML ZipArchive.</param>
+    /// <param name="translate">The callback used for text translation.</param>
+    /// <returns><c>true</c> if the ZipArchive is a XLSX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslateXlsxZipArchive(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
+        if (entry == null)
+            return false;
+
+        await entry.Translate(translate);
+        return true;
+    }
+
+    /// <summary>
     /// Translates an OOXML ZipArchive as an asynchronous operation.
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive to translate.</param>
@@ -22,34 +79,12 @@ public static class OoxmlTranslator
         ZipArchive zipArchive,
         Func<string, Task<string>> translate)
     {
-        {
-            var entry = zipArchive.GetEntry("word/document.xml");
-            if (entry != null)
-            {
-                await entry.Translate(translate);
-                return;
-            }
-        }
-        {
-            var slideFound = false;
-            foreach (var entry in zipArchive.Entries)
-                if (entry.FullName.StartsWith("ppt/slides/slide"))
-                {
-                    slideFound = true;
-                    await entry.Translate(translate);
-                }
-            if (slideFound)
-                return;
-        }
-        {
-            var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
-            if (entry != null)
-            {
-                await entry.Translate(translate);
-                return;
-            }
-        }
-        throw new Exception("Unsupported file format");
+        if (
+            !await TranslateDocxZipArchive(zipArchive, translate) &&
+            !await TranslatePptxZipArchive(zipArchive, translate) &&
+            !await TranslateXlsxZipArchive(zipArchive, translate))
+
+            throw new Exception("Unsupported file format");
     }
 
     /// <summary>

@@ -24,6 +24,44 @@ public class OoxmlTranslatorTests
         return false;
     }
 
+    private static void Test_TranslateZipArchiveMethod(
+        string filename,
+        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod)
+    {
+        if (!Directory.Exists(outputDir))
+            Directory.CreateDirectory(outputDir);
+
+        Copy(inputDir + filename, outputDir + filename, true);
+        using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+        {
+            var translated = translateZipArchiveMethod(
+                zipArchive,
+                async (text) => await Translate(text, "DE"))
+                .Result;
+
+            Assert.IsTrue(translated);
+        }
+        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocxZipArchive()
+    {
+        Test_TranslateZipArchiveMethod("Test.docx", TranslateDocxZipArchive);
+    }
+
+    [TestMethod]
+    public void Test_TranslatePptxZipArchive()
+    {
+        Test_TranslateZipArchiveMethod("Test.pptx", TranslatePptxZipArchive);
+    }
+
+    [TestMethod]
+    public void Test_TranslateXlsxZipArchive()
+    {
+        Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive);
+    }
+
     private static void Test_TranslateZipArchive(string filename)
     {
         if (!Directory.Exists(outputDir))
