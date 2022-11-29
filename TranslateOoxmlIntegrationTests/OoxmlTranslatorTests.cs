@@ -13,6 +13,23 @@ public class OoxmlTranslatorTests
     private static readonly string outputDir = testDir + "Output\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
+    private static void EnsureOutput()
+    {
+        if (!Directory.Exists(outputDir))
+            Directory.CreateDirectory(outputDir);
+    }
+
+    private static void CopyToOutput(string filename)
+    {
+        EnsureOutput();
+        Copy(inputDir + filename, outputDir + filename, true);
+    }
+
+    private static void AssertEqualInputOutput(string filename)
+    {
+        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+    }
+
     private static bool FilesAreEqual(string path1, string path2)
     {
         using var stream1 = File.OpenRead(path1);
@@ -28,10 +45,7 @@ public class OoxmlTranslatorTests
         string filename,
         Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod)
     {
-        if (!Directory.Exists(outputDir))
-            Directory.CreateDirectory(outputDir);
-
-        Copy(inputDir + filename, outputDir + filename, true);
+        CopyToOutput(filename);
         using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
         {
             var translated = translateZipArchiveMethod(
@@ -41,7 +55,7 @@ public class OoxmlTranslatorTests
 
             Assert.IsTrue(translated);
         }
-        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+        AssertEqualInputOutput(filename);
     }
 
     [TestMethod]
@@ -64,10 +78,7 @@ public class OoxmlTranslatorTests
 
     private static void Test_TranslateZipArchive(string filename)
     {
-        if (!Directory.Exists(outputDir))
-            Directory.CreateDirectory(outputDir);
-
-        Copy(inputDir + filename, outputDir + filename, true);
+        CopyToOutput(filename);
         using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
         {
             TranslateZipArchive(
@@ -76,7 +87,7 @@ public class OoxmlTranslatorTests
                 .Wait();
 
         }
-        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+        AssertEqualInputOutput(filename);
     }
 
     [TestMethod]
@@ -99,8 +110,7 @@ public class OoxmlTranslatorTests
 
     private static void Test_TranslateDocument(string filename)
     {
-        if (!Directory.Exists(outputDir))
-            Directory.CreateDirectory(outputDir);
+        EnsureOutput();
 
         TranslateDocument(
             inputDir + filename,
@@ -108,7 +118,7 @@ public class OoxmlTranslatorTests
             async (text) => await Translate(text, "DE"))
             .Wait();
 
-        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+        AssertEqualInputOutput(filename);
     }
 
     [TestMethod]
