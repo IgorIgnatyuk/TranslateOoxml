@@ -1,4 +1,6 @@
-﻿using static TranslateOoxml.DeepLTranslator;
+﻿using System.IO.Compression;
+using static System.IO.File;
+using static TranslateOoxml.DeepLTranslator;
 using static TranslateOoxml.OoxmlTranslator;
 
 namespace TranslateOoxmlIntegrationTests;
@@ -20,6 +22,41 @@ public class OoxmlTranslatorTests
             if (byte1 == -1)
                 return true;
         return false;
+    }
+
+    private static void Test_TranslateZipArchive(string filename)
+    {
+        if (!Directory.Exists(outputDir))
+            Directory.CreateDirectory(outputDir);
+
+        Copy(inputDir + filename, outputDir + filename, true);
+        using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+        {
+            TranslateZipArchive(
+                zipArchive,
+                async (text) => await Translate(text, "DE"))
+                .Wait();
+
+        }
+        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+    }
+
+    [TestMethod]
+    public void Test_TranslateZipArchive_Docx()
+    {
+        Test_TranslateZipArchive("Test.docx");
+    }
+
+    [TestMethod]
+    public void Test_TranslateZipArchive_Pptx()
+    {
+        Test_TranslateZipArchive("Test.pptx");
+    }
+
+    [TestMethod]
+    public void Test_TranslateZipArchive_Xlsx()
+    {
+        Test_TranslateZipArchive("Test.xlsx");
     }
 
     private static void Test_TranslateDocument(string filename)
