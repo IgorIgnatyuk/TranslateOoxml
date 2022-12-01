@@ -12,8 +12,8 @@ public class ZipArchiveEntryExtensionsTests
         using var stream = new MemoryStream();
         using var archive = new ZipArchive(stream, ZipArchiveMode.Update);
         var entry = archive.CreateEntry("TestEntry");
-        entry.Write("Test string");
-        var s = entry.Read();
+        entry.Write("Test string").Wait();
+        var s = entry.Read().Result;
         Assert.AreEqual(s, "Test string");
     }
 
@@ -23,9 +23,9 @@ public class ZipArchiveEntryExtensionsTests
         using var stream = new MemoryStream();
         using var archive = new ZipArchive(stream, ZipArchiveMode.Update);
         var entry = archive.CreateEntry("TestEntry");
-        entry.Write("Test string");
+        entry.Write("Test string").Wait();
         entry.Translate((text) => Task.FromResult(text.ToUpper())).Wait();
-        var s = entry.Read();
+        var s = entry.Read().Result;
         Assert.AreEqual(s, "TEST STRING");
     }
 }

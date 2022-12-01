@@ -12,11 +12,11 @@ public static class Extensions
     /// </summary>
     /// <param name="zipArchiveEntry">The ZipArchiveEntry.</param>
     /// <returns>The content of the ZipArchiveEntry as a string.</returns>
-    public static string Read(this ZipArchiveEntry zipArchiveEntry)
+    public static async Task<string> Read(this ZipArchiveEntry zipArchiveEntry)
     {
         using var stream = zipArchiveEntry.Open();
         using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
+        return await reader.ReadToEndAsync();
     }
 
     /// <summary>
@@ -24,11 +24,11 @@ public static class Extensions
     /// </summary>
     /// <param name="zipArchiveEntry">The ZipArchiveEntry.</param>
     /// <param name="contents">The text to be written.</param>
-    public static void Write(this ZipArchiveEntry zipArchiveEntry, string contents)
+    public static async Task Write(this ZipArchiveEntry zipArchiveEntry, string contents)
     {
         using var stream = zipArchiveEntry.Open();
         using var writer = new StreamWriter(stream);
-        writer.Write(contents);
+        await writer.WriteAsync(contents);
     }
 
     /// <summary>
@@ -42,6 +42,6 @@ public static class Extensions
         this ZipArchiveEntry entry,
         Func<string, Task<string>> translate)
     {
-        entry.Write(await translate(entry.Read()));
+        await entry.Write(await translate(await entry.Read()));
     }
 }
