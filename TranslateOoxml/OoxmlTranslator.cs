@@ -69,7 +69,9 @@ public static class OoxmlTranslator
     /// <summary>
     /// Translates an OOXML ZipArchive as an asynchronous operation.
     /// </summary>
-    /// <param name="zipArchive">The OOXML ZipArchive to translate.</param>
+    /// <param name="zipArchive">
+    /// The OOXML ZipArchive to translate (opened in ZipArchiveMode.Update).
+    /// </param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="Exception">
