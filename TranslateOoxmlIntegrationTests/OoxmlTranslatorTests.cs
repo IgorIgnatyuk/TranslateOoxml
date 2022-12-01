@@ -50,7 +50,7 @@ public class OoxmlTranslatorTests
         {
             var translated = translateZipArchiveMethod(
                 zipArchive,
-                async (text) => await Translate(text, "DE"))
+                async (text) => await TranslateXml(text, "DE"))
                 .Result;
 
             Assert.IsTrue(translated);
@@ -83,7 +83,7 @@ public class OoxmlTranslatorTests
         {
             TranslateZipArchive(
                 zipArchive,
-                async (text) => await Translate(text, "DE"))
+                async (text) => await TranslateXml(text, "DE"))
                 .Wait();
 
         }
@@ -115,7 +115,7 @@ public class OoxmlTranslatorTests
         TranslateDocument(
             inputDir + filename,
             outputDir + filename,
-            async (text) => await Translate(text, "DE"))
+            async (text) => await TranslateXml(text, "DE"))
             .Wait();
 
         AssertEqualInputOutput(filename);

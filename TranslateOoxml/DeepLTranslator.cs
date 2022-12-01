@@ -21,7 +21,7 @@ public static class DeepLTranslator
     /// <exception cref="Exception">
     /// Thrown when the environment variable DEEPL_AUTH_KEY is not set.
     /// </exception>
-    public static async Task<string> Translate(string text, string targetLanguage)
+    public static async Task<string> TranslateXml(string text, string targetLanguage)
     {
         var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
         if (deepLAuthKey == null)

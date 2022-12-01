@@ -6,9 +6,9 @@ namespace TranslateOoxmlIntegrationTests;
 public class DeepLTranslatorTests
 {
     [TestMethod]
-    public void Test_Translate()
+    public void Test_TranslateXml()
     {
-        var s = Translate("That is a test", "DE").Result;
+        var s = TranslateXml("That is a test", "DE").Result;
         Assert.AreEqual(s, "Das ist ein Test");
     }
 }

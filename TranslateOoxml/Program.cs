@@ -23,7 +23,7 @@ internal static class Program
                 await TranslateDocument(
                     sourcePath,
                     targetPath,
-                    async (text) => await Translate(text, targetLanguage));
+                    async (text) => await TranslateXml(text, targetLanguage));
             }
             catch (Exception e)
             {
