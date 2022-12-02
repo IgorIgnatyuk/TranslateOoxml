@@ -6,7 +6,7 @@ using static TranslateOoxml.OoxmlTranslator;
 
 namespace TranslateOoxml;
 
-internal static class Program
+internal static class TranslateOoxml
 {
     private static async Task Main(string[] args)
     {
