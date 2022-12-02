@@ -76,6 +76,39 @@ public class OoxmlTranslatorTests
         Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive);
     }
 
+    private static void Test_TranslateZipArchiveMethod_WrongFormat(
+        string filename,
+        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod)
+    {
+        CopyToOutput(filename);
+        using var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update);
+
+        var translated = translateZipArchiveMethod(
+            zipArchive,
+            async (text) => await TranslateXml(text, "DE"))
+            .Result;
+
+        Assert.IsFalse(translated);
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocxZipArchive_WrongFormat()
+    {
+        Test_TranslateZipArchiveMethod_WrongFormat("Test.pptx", TranslateDocxZipArchive);
+    }
+
+    [TestMethod]
+    public void Test_TranslatePptxZipArchive_WrongFormat()
+    {
+        Test_TranslateZipArchiveMethod_WrongFormat("Test.xlsx", TranslatePptxZipArchive);
+    }
+
+    [TestMethod]
+    public void Test_TranslateXlsxZipArchive_WrongFormat()
+    {
+        Test_TranslateZipArchiveMethod_WrongFormat("Test.docx", TranslateXlsxZipArchive);
+    }
+
     private static void Test_TranslateZipArchive(string filename)
     {
         CopyToOutput(filename);
@@ -108,6 +141,23 @@ public class OoxmlTranslatorTests
         Test_TranslateZipArchive("Test.xlsx");
     }
 
+    private static void Test_TranslateZipArchive_WrongFormat(string filename)
+    {
+        CopyToOutput(filename);
+        using var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update);
+
+        Assert.ThrowsExceptionAsync<Exception>(
+            async () => await TranslateZipArchive(
+                zipArchive,
+                async (text) => await TranslateXml(text, "DE")));
+    }
+
+    [TestMethod]
+    public void Test_TranslateZipArchive_WrongFormat_Zip()
+    {
+        Test_TranslateZipArchive_WrongFormat("Test.zip");
+    }
+
     private static void Test_TranslateDocument(string filename)
     {
         EnsureOutput();
@@ -137,5 +187,22 @@ public class OoxmlTranslatorTests
     public void Test_TranslateDocument_Xlsx()
     {
         Test_TranslateDocument("Test.xlsx");
+    }
+
+    private static void Test_TranslateDocument_FileNotFound(string filename)
+    {
+        EnsureOutput();
+
+        Assert.ThrowsExceptionAsync<FileNotFoundException>(
+            async () => await TranslateDocument(
+                inputDir + filename,
+                outputDir + filename,
+                async (text) => await TranslateXml(text, "DE")));
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_FileNotFound_Txt()
+    {
+        Test_TranslateDocument_FileNotFound("Test.txt");
     }
 }

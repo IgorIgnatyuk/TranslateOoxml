@@ -3,7 +3,7 @@
 /// <summary>
 /// Constants used by the application.
 /// </summary>
-internal static class Constants
+public static class Constants
 {
     /// <summary>
     /// The name of the DEEPL_AUTH_KEY environment variable.
