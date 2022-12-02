@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TranslateOoxml\TranslateOoxml.csproj" />
+    <ProjectReference Include="..\OoxmlTranslator\OoxmlTranslator.csproj" />
   </ItemGroup>
 
 </Project>
