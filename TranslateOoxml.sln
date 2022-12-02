@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxml", "TranslateOoxml\TranslateOoxml.csproj", "{1058806E-8A64-4B88-9605-3EC223A11C16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlUnitTests", "TranslateOoxmlUnitTests\TranslateOoxmlUnitTests.csproj", "{5BF404E5-4C27-4103-B784-5369699C9AE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslatorUnitTests", "TranslateOoxmlUnitTests\OoxmlTranslatorUnitTests.csproj", "{5BF404E5-4C27-4103-B784-5369699C9AE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlIntegrationTests", "TranslateOoxmlIntegrationTests\TranslateOoxmlIntegrationTests.csproj", "{A1048CE4-311F-4742-961E-2ADFBED22C80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslatorIntegrationTests", "TranslateOoxmlIntegrationTests\OoxmlTranslatorIntegrationTests.csproj", "{A1048CE4-311F-4742-961E-2ADFBED22C80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OoxmlTranslator", "OoxmlTranslator\OoxmlTranslator.csproj", "{1E4EA610-485E-4893-ADD4-EEDD7656D11A}"
 EndProject
