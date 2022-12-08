@@ -10,6 +10,8 @@ internal static class TranslateOoxmlService
     {
         var app = WebApplication.CreateBuilder().Build();
 
+        app.UseHttpsRedirection();
+
         app.MapPost(
             "/translate-ooxml/{targetLanguage}",
             async (string targetLanguage, HttpRequest request, HttpResponse response) =>
