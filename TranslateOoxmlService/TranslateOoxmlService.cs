@@ -24,9 +24,11 @@ internal static class TranslateOoxmlService
                         zipArchive,
                         async (text) => await TranslateXml(text, targetLanguage));
 
+                response.ContentType = "application/octet-stream";
                 stream.Position = 0;
                 await stream.CopyToAsync(response.Body);
-            });
+            })
+            .Accepts<IFormFile>("application/octet-stream");
 
         app.Run();
     }
