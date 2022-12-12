@@ -8,7 +8,18 @@ internal static class TranslateOoxmlService
 {
     private static void Main()
     {
-        var app = WebApplication.CreateBuilder().Build();
+        var builder = WebApplication.CreateBuilder();
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
         app.UseHttpsRedirection();
 
@@ -28,7 +39,8 @@ internal static class TranslateOoxmlService
                 stream.Position = 0;
                 await stream.CopyToAsync(response.Body);
             })
-            .Accepts<IFormFile>("application/octet-stream");
+            .Accepts<IFormFile>("application/octet-stream")
+            .WithName("PostTranslateOoxml");
 
         app.Run();
     }
