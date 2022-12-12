@@ -58,6 +58,11 @@ internal static class TranslateOoxmlService
                     app.Logger.LogError("Not a ZIP archive");
                     response.StatusCode = 400;
                 }
+                catch (UnsupportedFileFormatException ex)
+                {
+                    app.Logger.LogError("{ExceptionMessage}", ex.Message);
+                    response.StatusCode = 400;
+                }
                 catch (Exception ex)
                 {
                     app.Logger.LogError("Exception thrown: {ExceptionMessage}", ex.Message);

@@ -66,6 +66,11 @@ public static class OoxmlTranslator
         return true;
     }
 
+    public class UnsupportedFileFormatException : Exception
+    {
+        public UnsupportedFileFormatException() : base("Unsupported file format") { }
+    }
+
     /// <summary>
     /// Translates an OOXML ZipArchive as an asynchronous operation.
     /// </summary>
@@ -74,7 +79,7 @@ public static class OoxmlTranslator
     /// </param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    /// <exception cref="Exception">
+    /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
     public static async Task TranslateZipArchive(
@@ -86,7 +91,7 @@ public static class OoxmlTranslator
             !await TranslatePptxZipArchive(zipArchive, translate) &&
             !await TranslateXlsxZipArchive(zipArchive, translate))
 
-            throw new Exception("Unsupported file format");
+            throw new UnsupportedFileFormatException();
     }
 
     /// <summary>
