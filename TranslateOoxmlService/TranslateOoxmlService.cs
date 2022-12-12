@@ -31,27 +31,43 @@ internal static class TranslateOoxmlService
                     "Translating OOXML ({ContentLength} bytes) to {TargetLanguage}",
                     request.ContentLength, targetLanguage);
 
-                app.Logger.LogDebug("Copying the request body content to a memory stream");
-                var stream = new MemoryStream();
-                await request.Body.CopyToAsync(stream);
-
-                app.Logger.LogDebug("Opening the memory stream as a ZIP archive");
-                using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true))
+                try
                 {
-                    app.Logger.LogDebug("Translating the ZIP archive");
-                    await TranslateZipArchive(
-                        zipArchive,
-                        async (text) => await TranslateXml(text, targetLanguage));
-                }
-                app.Logger.LogDebug("Setting Content-Type to application/octet-stream");
-                response.ContentType = "application/octet-stream";
+                    app.Logger.LogDebug("Copying the request body content to a memory stream");
+                    var stream = new MemoryStream();
+                    await request.Body.CopyToAsync(stream);
 
-                app.Logger.LogDebug(
-                    "Copying the translated ZIP archive to the response body content");
-                stream.Position = 0;
-                await stream.CopyToAsync(response.Body);
+                    app.Logger.LogDebug("Opening the memory stream as a ZIP archive");
+                    using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true))
+                    {
+                        app.Logger.LogDebug("Translating the ZIP archive");
+                        await TranslateZipArchive(
+                            zipArchive,
+                            async (text) => await TranslateXml(text, targetLanguage));
+                    }
+                    app.Logger.LogDebug("Setting Content-Type to application/octet-stream");
+                    response.ContentType = "application/octet-stream";
+
+                    app.Logger.LogDebug(
+                        "Copying the translated ZIP archive to the response body content");
+                    stream.Position = 0;
+                    await stream.CopyToAsync(response.Body);
+                }
+                catch (InvalidDataException)
+                {
+                    app.Logger.LogError("Not a ZIP archive");
+                    response.StatusCode = 400;
+                }
+                catch (Exception ex)
+                {
+                    app.Logger.LogError("Exception thrown: {ExceptionMessage}", ex.Message);
+                    response.StatusCode = 500;
+                }
             })
             .Accepts<IFormFile>("application/octet-stream")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status500InternalServerError)
             .WithName("PostTranslateOoxml");
 
         app.Run();
