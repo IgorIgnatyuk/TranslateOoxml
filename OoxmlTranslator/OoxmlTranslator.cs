@@ -66,6 +66,9 @@ public static class OoxmlTranslator
         return true;
     }
 
+    /// <summary>
+    /// Exception thrown when the format of the document to translate is unsupported.
+    /// </summary>
     public class UnsupportedFileFormatException : Exception
     {
         public UnsupportedFileFormatException() : base("Unsupported file format") { }
