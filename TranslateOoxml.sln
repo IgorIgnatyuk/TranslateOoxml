@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslatorUnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslatorIntegrationTests", "TranslateOoxmlIntegrationTests\OoxmlTranslatorIntegrationTests.csproj", "{A1048CE4-311F-4742-961E-2ADFBED22C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OoxmlTranslator", "OoxmlTranslator\OoxmlTranslator.csproj", "{1E4EA610-485E-4893-ADD4-EEDD7656D11A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslator", "OoxmlTranslator\OoxmlTranslator.csproj", "{1E4EA610-485E-4893-ADD4-EEDD7656D11A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlService", "TranslateOoxmlService\TranslateOoxmlService.csproj", "{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlService", "TranslateOoxmlService\TranslateOoxmlService.csproj", "{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClient", "TranslateOoxmlClient\TranslateOoxmlClient.csproj", "{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

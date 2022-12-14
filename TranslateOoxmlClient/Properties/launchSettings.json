@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "DOCX": {
+      "commandName": "Project",
+      "commandLineArgs": "Info.docx DE https://localhost:7261/translate-ooxml",
+      "workingDirectory": "$(SolutionDir)"
+    },
+    "PPTX": {
+      "commandName": "Project",
+      "commandLineArgs": "Info.pptx DE https://localhost:7261/translate-ooxml",
+      "workingDirectory": "$(SolutionDir)"
+    },
+    "XLSX": {
+      "commandName": "Project",
+      "commandLineArgs": "Info.xlsx DE https://localhost:7261/translate-ooxml",
+      "workingDirectory": "$(SolutionDir)"
+    },
+    "Help": {
+      "commandName": "Project"
+    }
+  }
+}
