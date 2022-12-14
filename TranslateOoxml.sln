@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClient", "Tra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClientLib", "TranslateOoxmlClientLib\TranslateOoxmlClientLib.csproj", "{5F4BC48D-BD08-4637-B8FE-54E0A8129183}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClientLibTests", "TranslateOoxmlClientLibTests\TranslateOoxmlClientLibTests.csproj", "{C49500A8-E96C-4BCA-8B0C-DD333F744D80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5F4BC48D-BD08-4637-B8FE-54E0A8129183}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4BC48D-BD08-4637-B8FE-54E0A8129183}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4BC48D-BD08-4637-B8FE-54E0A8129183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C49500A8-E96C-4BCA-8B0C-DD333F744D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C49500A8-E96C-4BCA-8B0C-DD333F744D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C49500A8-E96C-4BCA-8B0C-DD333F744D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C49500A8-E96C-4BCA-8B0C-DD333F744D80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
