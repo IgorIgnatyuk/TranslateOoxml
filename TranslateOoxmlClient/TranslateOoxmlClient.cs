@@ -1,32 +1,11 @@
 ﻿using static System.Environment;
-using static System.IO.File;
 using static System.IO.Path;
+using static TranslateOoxmlClient.TranslateOoxmlClientLib;
 
 namespace TranslateOoxmlClient;
 
 internal static class TranslateOoxmlClient
 {
-    public static async Task TranslateDocument(
-        string sourcePath,
-        string targetPath,
-        string targetLanguage,
-        string serviceUrl)
-    {
-        if (!Exists(sourcePath))
-            throw new FileNotFoundException(null, sourcePath);
-
-        var client = new HttpClient();
-
-        using var sourceStream = File.OpenRead(sourcePath);
-        using var requestHttpContent = new StreamContent(sourceStream);
-        using var response =
-            await client.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
-
-        using var responseHttpContent = response.Content;
-        using var targetStream = File.Create(targetPath);
-        await responseHttpContent.CopyToAsync(targetStream);
-    }
-
     private static async Task Main(string[] args)
     {
         if (args.Length == 3)
