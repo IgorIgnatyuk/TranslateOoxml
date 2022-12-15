@@ -1,4 +1,3 @@
-using static System.IO.File;
 using static TranslateOoxmlClient.TranslateOoxmlClientLib;
 
 namespace TranslateOoxmlClientLibTests;
