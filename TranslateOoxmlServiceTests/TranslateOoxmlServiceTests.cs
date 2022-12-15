@@ -9,6 +9,13 @@ public class TranslateOoxmlServiceTests
     private static readonly string inputDir = testDir + "Input\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
+    private static readonly HttpClient HttpClient;
+
+    static TranslateOoxmlServiceTests()
+    {
+        HttpClient = new HttpClient();
+    }
+
     private static bool StreamsAreEqual(Stream stream1, Stream stream2)
     {
         int byte1, byte2;
@@ -24,11 +31,9 @@ public class TranslateOoxmlServiceTests
         string targetLanguage,
         string serviceUrl)
     {
-        var client = new HttpClient();
-
         using var requestHttpContent = new StreamContent(sourceStream);
         using var response =
-            await client.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
+            await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
 
         using var responseHttpContent = response.Content;
         await responseHttpContent.CopyToAsync(targetStream);

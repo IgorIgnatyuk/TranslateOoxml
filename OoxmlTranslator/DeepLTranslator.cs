@@ -10,6 +10,13 @@ namespace TranslateOoxml;
 /// </summary>
 public static class DeepLTranslator
 {
+    private static readonly HttpClient HttpClient;
+
+    static DeepLTranslator()
+    {
+        HttpClient = new HttpClient();
+    }
+
     /// <summary>
     /// Translates a text as an asynchronous operation.
     /// </summary>
@@ -27,8 +34,7 @@ public static class DeepLTranslator
         if (deepLAuthKey == null)
             throw new Exception("Environment variable DEEPL_AUTH_KEY is not set");
 
-        var client = new HttpClient();
-        client.DefaultRequestHeaders.Authorization =
+        HttpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("DeepL-Auth-Key", deepLAuthKey);
 
         using var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
@@ -38,7 +44,7 @@ public static class DeepLTranslator
             new KeyValuePair<string, string>("tag_handling", "xml")
         });
         using var response =
-            await client.PostAsync("https://api-free.deepl.com/v2/translate", httpContent);
+            await HttpClient.PostAsync("https://api-free.deepl.com/v2/translate", httpContent);
 
         using var responseHttpContent = response.Content;
         var result = await responseHttpContent.ReadFromJsonAsync<TranslateResult>();

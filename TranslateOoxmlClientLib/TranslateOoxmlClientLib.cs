@@ -7,6 +7,13 @@ namespace TranslateOoxmlClient;
 /// </summary>
 public static class TranslateOoxmlClientLib
 {
+    private static readonly HttpClient HttpClient;
+
+    static TranslateOoxmlClientLib()
+    {
+        HttpClient = new HttpClient();
+    }
+
     /// <summary>
     /// Translates an OOXML document as an asynchronous operation using the TranslateOoxml service.
     /// </summary>
@@ -27,12 +34,10 @@ public static class TranslateOoxmlClientLib
         if (!Exists(sourcePath))
             throw new FileNotFoundException(null, sourcePath);
 
-        var client = new HttpClient();
-
         using var sourceStream = File.OpenRead(sourcePath);
         using var requestHttpContent = new StreamContent(sourceStream);
         using var response =
-            await client.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
+            await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
 
         using var responseHttpContent = response.Content;
         using var targetStream = File.Create(targetPath);
