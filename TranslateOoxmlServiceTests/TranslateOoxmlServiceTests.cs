@@ -9,7 +9,7 @@ public class TranslateOoxmlServiceTests
     private static readonly string inputDir = testDir + "Input\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
-    private static bool StreamAreEqual(Stream stream1, Stream stream2)
+    private static bool StreamsAreEqual(Stream stream1, Stream stream2)
     {
         int byte1, byte2;
         while ((byte1 = stream1.ReadByte()) == (byte2 = stream2.ReadByte()))
@@ -49,7 +49,7 @@ public class TranslateOoxmlServiceTests
         output.Position = 0;
         using var expectedOutput = File.OpenRead(expectedOutputDir + filename);
 
-        Assert.IsTrue(StreamAreEqual(output, expectedOutput));
+        Assert.IsTrue(StreamsAreEqual(output, expectedOutput));
     }
 
     [TestMethod]
