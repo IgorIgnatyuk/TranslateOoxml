@@ -18,7 +18,7 @@ public class TranslateOoxmlClientLibTests
             Directory.CreateDirectory(outputDir);
     }
 
-    private static void AssertEqualInputOutput(string filename)
+    private static void AssertExpectedOutput(string filename)
     {
         Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
     }
@@ -44,7 +44,7 @@ public class TranslateOoxmlClientLibTests
             "https://localhost:7261/translate-ooxml")
             .Wait();
 
-        AssertEqualInputOutput(filename);
+        AssertExpectedOutput(filename);
     }
 
     [TestMethod]

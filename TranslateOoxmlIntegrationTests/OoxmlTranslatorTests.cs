@@ -25,7 +25,7 @@ public class OoxmlTranslatorTests
         Copy(inputDir + filename, outputDir + filename, true);
     }
 
-    private static void AssertEqualInputOutput(string filename)
+    private static void AssertExpectedOutput(string filename)
     {
         Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
     }
@@ -55,7 +55,7 @@ public class OoxmlTranslatorTests
 
             Assert.IsTrue(translated);
         }
-        AssertEqualInputOutput(filename);
+        AssertExpectedOutput(filename);
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class OoxmlTranslatorTests
                 .Wait();
 
         }
-        AssertEqualInputOutput(filename);
+        AssertExpectedOutput(filename);
     }
 
     [TestMethod]
@@ -168,7 +168,7 @@ public class OoxmlTranslatorTests
             async (text) => await TranslateXml(text, "DE"))
             .Wait();
 
-        AssertEqualInputOutput(filename);
+        AssertExpectedOutput(filename);
     }
 
     [TestMethod]
