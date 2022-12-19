@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace TranslateOoxmlServiceTests;
 
 [TestClass]
@@ -25,7 +27,7 @@ public class TranslateOoxmlServiceTests
         return false;
     }
 
-    private static async Task PostToTranslateOoxmlService(
+    private static async Task<HttpStatusCode> PostToTranslateOoxmlService(
         Stream sourceStream,
         Stream targetStream,
         string targetLanguage,
@@ -37,6 +39,7 @@ public class TranslateOoxmlServiceTests
 
         using var responseHttpContent = response.Content;
         await responseHttpContent.CopyToAsync(targetStream);
+        return response.StatusCode;
     }
 
     private static void Test_PostToTranslateOoxmlService(string filename)
@@ -44,12 +47,14 @@ public class TranslateOoxmlServiceTests
         using var input = File.OpenRead(inputDir + filename);
         using var output = new MemoryStream();
 
-        PostToTranslateOoxmlService(
+        var statusCode = PostToTranslateOoxmlService(
             input,
             output,
             "DE",
             "https://localhost:7261/translate-ooxml")
-            .Wait();
+            .Result;
+
+        Assert.AreEqual(statusCode, HttpStatusCode.OK);
 
         output.Position = 0;
         using var expectedOutput = File.OpenRead(expectedOutputDir + filename);

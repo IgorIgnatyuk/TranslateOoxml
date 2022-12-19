@@ -1,4 +1,5 @@
-﻿using static System.IO.File;
+﻿using System.Net;
+using static System.IO.File;
 
 namespace TranslateOoxmlClient;
 
@@ -25,7 +26,7 @@ public static class TranslateOoxmlClientLib
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
     /// </exception>
-    public static async Task TranslateDocument(
+    public static async Task<HttpStatusCode> TranslateDocument(
         string sourcePath,
         string targetPath,
         string targetLanguage,
@@ -39,8 +40,11 @@ public static class TranslateOoxmlClientLib
         using var response =
             await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
 
-        using var responseHttpContent = response.Content;
-        using var targetStream = File.Create(targetPath);
-        await responseHttpContent.CopyToAsync(targetStream);
+        {
+            using var responseHttpContent = response.Content;
+            using var targetStream = File.Create(targetPath);
+            await responseHttpContent.CopyToAsync(targetStream);
+        }
+        return response.StatusCode;
     }
 }

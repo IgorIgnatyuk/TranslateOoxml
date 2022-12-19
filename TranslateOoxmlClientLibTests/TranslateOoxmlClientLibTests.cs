@@ -1,3 +1,4 @@
+using System.Net;
 using static TranslateOoxmlClient.TranslateOoxmlClientLib;
 
 namespace TranslateOoxmlClientLibTests;
@@ -37,13 +38,14 @@ public class TranslateOoxmlClientLibTests
     {
         EnsureOutput();
 
-        TranslateDocument(
+        var statusCode = TranslateDocument(
             inputDir + filename,
             outputDir + filename,
             "DE",
             "https://localhost:7261/translate-ooxml")
-            .Wait();
+            .Result;
 
+        Assert.AreEqual(statusCode, HttpStatusCode.OK);
         AssertExpectedOutput(filename);
     }
 
