@@ -79,4 +79,31 @@ public class TranslateOoxmlServiceTests
     {
         Test_PostToTranslateOoxmlService("Test.xlsx");
     }
+
+    private static void Test_PostToTranslateOoxmlService_BadRequest(string filename)
+    {
+        using var input = File.OpenRead(inputDir + filename);
+        using var output = new MemoryStream();
+
+        var statusCode = PostToTranslateOoxmlService(
+            input,
+            output,
+            "DE",
+            "https://localhost:7261/translate-ooxml")
+            .Result;
+
+        Assert.AreEqual(statusCode, HttpStatusCode.BadRequest);
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_Zip()
+    {
+        Test_PostToTranslateOoxmlService_BadRequest("Test.zip");
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_Txt()
+    {
+        Test_PostToTranslateOoxmlService_BadRequest("Test.txt");
+    }
 }

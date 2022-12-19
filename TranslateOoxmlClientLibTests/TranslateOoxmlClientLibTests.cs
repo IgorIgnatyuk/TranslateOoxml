@@ -67,6 +67,32 @@ public class TranslateOoxmlClientLibTests
         Test_TranslateDocument("Test.xlsx");
     }
 
+    private static void Test_TranslateDocument_BadRequest(string filename)
+    {
+        EnsureOutput();
+
+        var statusCode = TranslateDocument(
+            inputDir + filename,
+            outputDir + filename,
+            "DE",
+            "https://localhost:7261/translate-ooxml")
+            .Result;
+
+        Assert.AreEqual(statusCode, HttpStatusCode.BadRequest);
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_BadRequest_zip()
+    {
+        Test_TranslateDocument_BadRequest("Test.zip");
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_BadRequest_txt()
+    {
+        Test_TranslateDocument_BadRequest("Test.txt");
+    }
+
     private static void Test_TranslateDocument_FileNotFound(string filename)
     {
         EnsureOutput();
