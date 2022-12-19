@@ -203,8 +203,8 @@ public class OoxmlTranslatorTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_FileNotFound_Txt()
+    public void Test_TranslateDocument_FileNotFound_Html()
     {
-        Test_TranslateDocument_FileNotFound("Test.txt");
+        Test_TranslateDocument_FileNotFound("Test.html");
     }
 }
