@@ -207,4 +207,22 @@ public class OoxmlTranslatorTests
     {
         Test_TranslateDocument_FileNotFound("Test.html");
     }
+
+    private static void Test_TranslateDocument_InvalidDataException(string filename)
+    {
+        EnsureOutput();
+
+        Assert.ThrowsException<InvalidDataException>(
+            () => TranslateDocument(
+                inputDir + filename,
+                outputDir + filename,
+                async (text) => await TranslateXml(text, "DE"))
+            .GetAwaiter().GetResult());
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_InvalidDataException_Txt()
+    {
+        Test_TranslateDocument_InvalidDataException("Test.txt");
+    }
 }
