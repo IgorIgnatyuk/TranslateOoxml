@@ -21,8 +21,8 @@ public class DeepLTranslatorTests
         SetEnvironmentVariable(DeepLAuthKey, null);
         try
         {
-            Assert.ThrowsExceptionAsync<Exception>(
-                async () => { await TranslateXml("Test", "DE"); });
+            Assert.ThrowsException<Exception>(
+                () => { TranslateXml("Test", "DE").GetAwaiter().GetResult(); });
         }
         finally
         {

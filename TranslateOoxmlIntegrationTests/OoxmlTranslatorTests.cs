@@ -146,10 +146,11 @@ public class OoxmlTranslatorTests
         CopyToOutput(filename);
         using var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update);
 
-        Assert.ThrowsExceptionAsync<Exception>(
-            async () => await TranslateZipArchive(
+        Assert.ThrowsException<UnsupportedFileFormatException>(
+            () => TranslateZipArchive(
                 zipArchive,
-                async (text) => await TranslateXml(text, "DE")));
+                async (text) => await TranslateXml(text, "DE"))
+            .GetAwaiter().GetResult());
     }
 
     [TestMethod]
@@ -193,11 +194,12 @@ public class OoxmlTranslatorTests
     {
         EnsureOutput();
 
-        Assert.ThrowsExceptionAsync<FileNotFoundException>(
-            async () => await TranslateDocument(
+        Assert.ThrowsException<FileNotFoundException>(
+            () => TranslateDocument(
                 inputDir + filename,
                 outputDir + filename,
-                async (text) => await TranslateXml(text, "DE")));
+                async (text) => await TranslateXml(text, "DE"))
+            .GetAwaiter().GetResult());
     }
 
     [TestMethod]

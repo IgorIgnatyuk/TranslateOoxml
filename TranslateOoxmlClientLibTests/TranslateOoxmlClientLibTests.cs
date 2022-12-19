@@ -71,12 +71,13 @@ public class TranslateOoxmlClientLibTests
     {
         EnsureOutput();
 
-        Assert.ThrowsExceptionAsync<FileNotFoundException>(
-            async () => await TranslateDocument(
+        Assert.ThrowsException<FileNotFoundException>(
+            () => TranslateDocument(
                 inputDir + filename,
                 outputDir + filename,
                 "DE",
-                "https://localhost:7261/translate-ooxml"));
+                "https://localhost:7261/translate-ooxml")
+            .GetAwaiter().GetResult());
     }
 
     [TestMethod]
