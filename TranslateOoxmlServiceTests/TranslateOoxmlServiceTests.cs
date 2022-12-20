@@ -42,7 +42,9 @@ public class TranslateOoxmlServiceTests
         return response.StatusCode;
     }
 
-    private static void Test_PostToTranslateOoxmlService(string filename)
+    private static void Test_PostToTranslateOoxmlService(
+        string filename,
+        HttpStatusCode expectedStatusCode)
     {
         using var input = File.OpenRead(inputDir + filename);
         using var output = new MemoryStream();
@@ -54,56 +56,43 @@ public class TranslateOoxmlServiceTests
             "https://localhost:7261/translate-ooxml")
             .Result;
 
-        Assert.AreEqual(statusCode, HttpStatusCode.OK);
+        Assert.AreEqual(statusCode, expectedStatusCode);
 
-        output.Position = 0;
-        using var expectedOutput = File.OpenRead(expectedOutputDir + filename);
-
-        Assert.IsTrue(StreamsAreEqual(output, expectedOutput));
+        if (statusCode == HttpStatusCode.OK)
+        {
+            output.Position = 0;
+            using var expectedOutput = File.OpenRead(expectedOutputDir + filename);
+            Assert.IsTrue(StreamsAreEqual(output, expectedOutput));
+        }
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Docx()
     {
-        Test_PostToTranslateOoxmlService("Test.docx");
+        Test_PostToTranslateOoxmlService("Test.docx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Pptx()
     {
-        Test_PostToTranslateOoxmlService("Test.pptx");
+        Test_PostToTranslateOoxmlService("Test.pptx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Xlsx()
     {
-        Test_PostToTranslateOoxmlService("Test.xlsx");
-    }
-
-    private static void Test_PostToTranslateOoxmlService_BadRequest(string filename)
-    {
-        using var input = File.OpenRead(inputDir + filename);
-        using var output = new MemoryStream();
-
-        var statusCode = PostToTranslateOoxmlService(
-            input,
-            output,
-            "DE",
-            "https://localhost:7261/translate-ooxml")
-            .Result;
-
-        Assert.AreEqual(statusCode, HttpStatusCode.BadRequest);
+        Test_PostToTranslateOoxmlService("Test.xlsx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Zip()
     {
-        Test_PostToTranslateOoxmlService_BadRequest("Test.zip");
+        Test_PostToTranslateOoxmlService("Test.zip", HttpStatusCode.BadRequest);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Txt()
     {
-        Test_PostToTranslateOoxmlService_BadRequest("Test.txt");
+        Test_PostToTranslateOoxmlService("Test.txt", HttpStatusCode.BadRequest);
     }
 }
