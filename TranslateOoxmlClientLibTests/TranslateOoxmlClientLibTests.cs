@@ -34,76 +34,59 @@ public class TranslateOoxmlClientLibTests
                 return true;
         return false;
     }
-    private static void Test_TranslateDocument(string filename)
+
+    private static HttpStatusCode Test_TranslateDocument(string filename)
     {
         EnsureOutput();
 
-        var statusCode = TranslateDocument(
+        return TranslateDocument(
             inputDir + filename,
             outputDir + filename,
             "DE",
             "https://localhost:7261/translate-ooxml")
-            .Result;
-
-        Assert.AreEqual(statusCode, HttpStatusCode.OK);
-        AssertExpectedOutput(filename);
+            .GetAwaiter().GetResult();
+    }
+    private static void Test_TranslateDocument(string filename, HttpStatusCode expectedStatusCode)
+    {
+        var statusCode = Test_TranslateDocument(filename);
+        Assert.AreEqual(statusCode, expectedStatusCode);
+        if (statusCode == HttpStatusCode.OK)
+            AssertExpectedOutput(filename);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Docx()
     {
-        Test_TranslateDocument("Test.docx");
+        Test_TranslateDocument("Test.docx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Pptx()
     {
-        Test_TranslateDocument("Test.pptx");
+        Test_TranslateDocument("Test.pptx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_Xlsx()
     {
-        Test_TranslateDocument("Test.xlsx");
-    }
-
-    private static void Test_TranslateDocument_BadRequest(string filename)
-    {
-        EnsureOutput();
-
-        var statusCode = TranslateDocument(
-            inputDir + filename,
-            outputDir + filename,
-            "DE",
-            "https://localhost:7261/translate-ooxml")
-            .Result;
-
-        Assert.AreEqual(statusCode, HttpStatusCode.BadRequest);
+        Test_TranslateDocument("Test.xlsx", HttpStatusCode.OK);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_BadRequest_zip()
     {
-        Test_TranslateDocument_BadRequest("Test.zip");
+        Test_TranslateDocument("Test.zip", HttpStatusCode.BadRequest);
     }
 
     [TestMethod]
     public void Test_TranslateDocument_BadRequest_txt()
     {
-        Test_TranslateDocument_BadRequest("Test.txt");
+        Test_TranslateDocument("Test.txt", HttpStatusCode.BadRequest);
     }
 
     private static void Test_TranslateDocument_FileNotFound(string filename)
     {
-        EnsureOutput();
-
-        Assert.ThrowsException<FileNotFoundException>(
-            () => TranslateDocument(
-                inputDir + filename,
-                outputDir + filename,
-                "DE",
-                "https://localhost:7261/translate-ooxml")
-            .GetAwaiter().GetResult());
+        Assert.ThrowsException<FileNotFoundException>(() => Test_TranslateDocument(filename));
     }
 
     [TestMethod]
