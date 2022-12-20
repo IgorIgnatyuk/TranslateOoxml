@@ -43,70 +43,58 @@ public class OoxmlTranslatorTests
 
     private static void Test_TranslateZipArchiveMethod(
         string filename,
-        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod)
+        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod,
+        bool expectedSuccess)
     {
         CopyToOutput(filename);
+        bool success;
         using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
         {
-            var translated = translateZipArchiveMethod(
+            success = translateZipArchiveMethod(
                 zipArchive,
                 async (text) => await TranslateXml(text, "DE"))
                 .Result;
 
-            Assert.IsTrue(translated);
+            Assert.AreEqual(success, expectedSuccess);
         }
-        AssertExpectedOutput(filename);
+        if (success)
+            AssertExpectedOutput(filename);
     }
 
     [TestMethod]
     public void Test_TranslateDocxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.docx", TranslateDocxZipArchive);
+        Test_TranslateZipArchiveMethod("Test.docx", TranslateDocxZipArchive, true);
     }
 
     [TestMethod]
     public void Test_TranslatePptxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.pptx", TranslatePptxZipArchive);
+        Test_TranslateZipArchiveMethod("Test.pptx", TranslatePptxZipArchive, true);
     }
 
     [TestMethod]
     public void Test_TranslateXlsxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive);
-    }
-
-    private static void Test_TranslateZipArchiveMethod_WrongFormat(
-        string filename,
-        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod)
-    {
-        CopyToOutput(filename);
-        using var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update);
-
-        var translated = translateZipArchiveMethod(
-            zipArchive,
-            async (text) => await TranslateXml(text, "DE"))
-            .Result;
-
-        Assert.IsFalse(translated);
+        Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive, true);
     }
 
     [TestMethod]
     public void Test_TranslateDocxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod_WrongFormat("Test.pptx", TranslateDocxZipArchive);
+        Test_TranslateZipArchiveMethod("Test.pptx", TranslateDocxZipArchive, false);
     }
 
     [TestMethod]
     public void Test_TranslatePptxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod_WrongFormat("Test.xlsx", TranslatePptxZipArchive);
+        Test_TranslateZipArchiveMethod("Test.xlsx", TranslatePptxZipArchive, false);
     }
 
     [TestMethod]
     public void Test_TranslateXlsxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod_WrongFormat("Test.docx", TranslateXlsxZipArchive);
+        Test_TranslateZipArchiveMethod("Test.docx", TranslateXlsxZipArchive, false);
     }
 
     private static void Test_TranslateZipArchive(string filename)
