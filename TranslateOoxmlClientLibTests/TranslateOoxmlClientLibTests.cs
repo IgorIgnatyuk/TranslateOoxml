@@ -78,6 +78,7 @@ public class TranslateOoxmlClientLibTests
     [TestMethod]
     public void Test_TranslateDocument_Html()
     {
-        Assert.ThrowsException<FileNotFoundException>(() => Test_TranslateDocument("Test.html"));
+        Assert.ThrowsException<FileNotFoundException>(
+            () => Test_TranslateDocument("Test.html"));
     }
 }
