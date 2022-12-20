@@ -36,6 +36,7 @@ public class TranslateOoxmlClientLibTests
             "https://localhost:7261/translate-ooxml")
             .GetAwaiter().GetResult();
     }
+
     private static void Test_TranslateDocument(string filename, HttpStatusCode expectedStatusCode)
     {
         var statusCode = Test_TranslateDocument(filename);
