@@ -20,9 +20,9 @@ public class TranslateOoxmlServiceTests
 
     private static bool StreamsAreEqual(Stream stream1, Stream stream2)
     {
-        int byte1, byte2;
-        while ((byte1 = stream1.ReadByte()) == (byte2 = stream2.ReadByte()))
-            if (byte1 == -1)
+        int b;
+        while ((b = stream1.ReadByte()) == stream2.ReadByte())
+            if (b == -1)
                 return true;
         return false;
     }

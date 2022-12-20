@@ -28,9 +28,9 @@ public class TranslateOoxmlClientLibTests
     {
         using var stream1 = File.OpenRead(path1);
         using var stream2 = File.OpenRead(path2);
-        int byte1, byte2;
-        while ((byte1 = stream1.ReadByte()) == (byte2 = stream2.ReadByte()))
-            if (byte1 == -1)
+        int b;
+        while ((b = stream1.ReadByte()) == stream2.ReadByte())
+            if (b == -1)
                 return true;
         return false;
     }
