@@ -13,17 +13,6 @@ public class TranslateOoxmlClientLibTests
     private static readonly string outputDir = testDir + "Output\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
-    private static void EnsureOutput()
-    {
-        if (!Directory.Exists(outputDir))
-            Directory.CreateDirectory(outputDir);
-    }
-
-    private static void AssertExpectedOutput(string filename)
-    {
-        Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
-    }
-
     private static bool FilesAreEqual(string path1, string path2)
     {
         using var stream1 = File.OpenRead(path1);
@@ -37,7 +26,8 @@ public class TranslateOoxmlClientLibTests
 
     private static HttpStatusCode Test_TranslateDocument(string filename)
     {
-        EnsureOutput();
+        if (!Directory.Exists(outputDir))
+            Directory.CreateDirectory(outputDir);
 
         return TranslateDocument(
             inputDir + filename,
@@ -51,7 +41,7 @@ public class TranslateOoxmlClientLibTests
         var statusCode = Test_TranslateDocument(filename);
         Assert.AreEqual(statusCode, expectedStatusCode);
         if (statusCode == HttpStatusCode.OK)
-            AssertExpectedOutput(filename);
+            Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
     }
 
     [TestMethod]
