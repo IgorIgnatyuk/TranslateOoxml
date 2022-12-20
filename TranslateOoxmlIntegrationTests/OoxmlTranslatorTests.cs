@@ -105,8 +105,7 @@ public class OoxmlTranslatorTests
             TranslateZipArchive(
                 zipArchive,
                 async (text) => await TranslateXml(text, "DE"))
-                .Wait();
-
+                .GetAwaiter().GetResult();
         }
         AssertExpectedOutput(filename);
     }
@@ -129,22 +128,11 @@ public class OoxmlTranslatorTests
         Test_TranslateZipArchive("Test.xlsx");
     }
 
-    private static void Test_TranslateZipArchive_WrongFormat(string filename)
-    {
-        CopyToOutput(filename);
-        using var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update);
-
-        Assert.ThrowsException<UnsupportedFileFormatException>(
-            () => TranslateZipArchive(
-                zipArchive,
-                async (text) => await TranslateXml(text, "DE"))
-            .GetAwaiter().GetResult());
-    }
-
     [TestMethod]
     public void Test_TranslateZipArchive_WrongFormat_Zip()
     {
-        Test_TranslateZipArchive_WrongFormat("Test.zip");
+        Assert.ThrowsException<UnsupportedFileFormatException>(
+            () => Test_TranslateZipArchive("Test.zip"));
     }
 
     private static void Test_TranslateDocument(string filename)
