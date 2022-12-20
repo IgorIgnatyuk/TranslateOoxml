@@ -63,25 +63,20 @@ public class TranslateOoxmlClientLibTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_BadRequest_zip()
+    public void Test_TranslateDocument_Zip()
     {
         Test_TranslateDocument("Test.zip", HttpStatusCode.BadRequest);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_BadRequest_txt()
+    public void Test_TranslateDocument_Txt()
     {
         Test_TranslateDocument("Test.txt", HttpStatusCode.BadRequest);
     }
 
-    private static void Test_TranslateDocument_FileNotFound(string filename)
-    {
-        Assert.ThrowsException<FileNotFoundException>(() => Test_TranslateDocument(filename));
-    }
-
     [TestMethod]
-    public void Test_TranslateDocument_FileNotFound_Html()
+    public void Test_TranslateDocument_Html()
     {
-        Test_TranslateDocument_FileNotFound("Test.html");
+        Assert.ThrowsException<FileNotFoundException>(() => Test_TranslateDocument("Test.html"));
     }
 }
