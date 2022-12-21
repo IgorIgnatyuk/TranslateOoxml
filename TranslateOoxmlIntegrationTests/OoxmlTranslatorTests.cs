@@ -119,13 +119,6 @@ public class OoxmlTranslatorTests
             async () => await Test_TranslateZipArchive("Test.zip"));
     }
 
-    [TestMethod]
-    public async Task Test_TranslateZipArchive_WrongFormat_Txt()
-    {
-        await Assert.ThrowsExceptionAsync<InvalidDataException>(
-            async () => await Test_TranslateZipArchive("Test.txt"));
-    }
-
     private static async Task Test_TranslateDocument(string filename)
     {
         EnsureOutput();
