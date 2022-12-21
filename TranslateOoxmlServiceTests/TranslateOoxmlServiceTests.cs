@@ -1,15 +1,12 @@
 using System.Net;
 using static Helpers.Equality;
+using static Helpers.TestDirectories;
 
 namespace TranslateOoxmlServiceTests;
 
 [TestClass]
 public class TranslateOoxmlServiceTests
 {
-    private static readonly string testDir = "..\\..\\..\\..\\TestDocuments\\";
-    private static readonly string inputDir = testDir + "Input\\";
-    private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
-
     private static readonly HttpClient HttpClient;
 
     static TranslateOoxmlServiceTests()

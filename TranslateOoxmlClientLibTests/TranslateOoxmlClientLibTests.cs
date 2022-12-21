@@ -1,5 +1,6 @@
 using System.Net;
 using static Helpers.Equality;
+using static Helpers.TestDirectories;
 using static TranslateOoxmlClient.TranslateOoxmlClientLib;
 
 namespace TranslateOoxmlClientLibTests;
@@ -7,11 +8,6 @@ namespace TranslateOoxmlClientLibTests;
 [TestClass]
 public class TranslateOoxmlClientLibTests
 {
-    private static readonly string testDir = "..\\..\\..\\..\\TestDocuments\\";
-    private static readonly string inputDir = testDir + "Input\\";
-    private static readonly string outputDir = testDir + "Output\\";
-    private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
-
     private static HttpStatusCode Test_TranslateDocument(string filename)
     {
         if (!Directory.Exists(outputDir))
