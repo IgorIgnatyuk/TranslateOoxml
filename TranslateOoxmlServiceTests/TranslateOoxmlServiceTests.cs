@@ -1,4 +1,5 @@
 using System.Net;
+using static Helpers.Equality;
 
 namespace TranslateOoxmlServiceTests;
 
@@ -16,15 +17,6 @@ public class TranslateOoxmlServiceTests
     static TranslateOoxmlServiceTests()
     {
         HttpClient = new HttpClient();
-    }
-
-    private static bool StreamsAreEqual(Stream stream1, Stream stream2)
-    {
-        int b;
-        while ((b = stream1.ReadByte()) == stream2.ReadByte())
-            if (b == -1)
-                return true;
-        return false;
     }
 
     private static async Task<HttpStatusCode> PostToTranslateOoxmlService(

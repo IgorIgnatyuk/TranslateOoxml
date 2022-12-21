@@ -1,4 +1,5 @@
 using System.Net;
+using static Helpers.Equality;
 using static TranslateOoxmlClient.TranslateOoxmlClientLib;
 
 namespace TranslateOoxmlClientLibTests;
@@ -12,17 +13,6 @@ public class TranslateOoxmlClientLibTests
     private static readonly string inputDir = testDir + "Input\\";
     private static readonly string outputDir = testDir + "Output\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
-
-    private static bool FilesAreEqual(string path1, string path2)
-    {
-        using var stream1 = File.OpenRead(path1);
-        using var stream2 = File.OpenRead(path2);
-        int b;
-        while ((b = stream1.ReadByte()) == stream2.ReadByte())
-            if (b == -1)
-                return true;
-        return false;
-    }
 
     private static HttpStatusCode Test_TranslateDocument(string filename)
     {

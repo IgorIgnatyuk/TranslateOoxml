@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using static Helpers.Equality;
 using static System.IO.File;
 using static TranslateOoxml.DeepLTranslator;
 using static TranslateOoxml.OoxmlTranslator;
@@ -28,17 +29,6 @@ public class OoxmlTranslatorTests
     private static void AssertExpectedOutput(string filename)
     {
         Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
-    }
-
-    private static bool FilesAreEqual(string path1, string path2)
-    {
-        using var stream1 = File.OpenRead(path1);
-        using var stream2 = File.OpenRead(path2);
-        int b;
-        while ((b = stream1.ReadByte()) == stream2.ReadByte())
-            if (b == -1)
-                return true;
-        return false;
     }
 
     private static void Test_TranslateZipArchiveMethod(

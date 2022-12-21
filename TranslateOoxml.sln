@@ -13,13 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OoxmlTranslator", "OoxmlTra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlService", "TranslateOoxmlService\TranslateOoxmlService.csproj", "{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClient", "TranslateOoxmlClient\TranslateOoxmlClient.csproj", "{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlClient", "TranslateOoxmlClient\TranslateOoxmlClient.csproj", "{5A0462C0-6D4A-43D7-A36D-6CA2566C1A20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClientLib", "TranslateOoxmlClientLib\TranslateOoxmlClientLib.csproj", "{5F4BC48D-BD08-4637-B8FE-54E0A8129183}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlClientLib", "TranslateOoxmlClientLib\TranslateOoxmlClientLib.csproj", "{5F4BC48D-BD08-4637-B8FE-54E0A8129183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlClientLibTests", "TranslateOoxmlClientLibTests\TranslateOoxmlClientLibTests.csproj", "{C49500A8-E96C-4BCA-8B0C-DD333F744D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlClientLibTests", "TranslateOoxmlClientLibTests\TranslateOoxmlClientLibTests.csproj", "{C49500A8-E96C-4BCA-8B0C-DD333F744D80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlServiceTests", "TranslateOoxmlServiceTests\TranslateOoxmlServiceTests.csproj", "{2A74A254-4490-47D8-A592-FEFA908721F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceTests", "TranslateOoxmlServiceTests\TranslateOoxmlServiceTests.csproj", "{2A74A254-4490-47D8-A592-FEFA908721F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{0392B337-31B8-4302-B64F-04BD8E470AD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{2A74A254-4490-47D8-A592-FEFA908721F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A74A254-4490-47D8-A592-FEFA908721F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A74A254-4490-47D8-A592-FEFA908721F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0392B337-31B8-4302-B64F-04BD8E470AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0392B337-31B8-4302-B64F-04BD8E470AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0392B337-31B8-4302-B64F-04BD8E470AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0392B337-31B8-4302-B64F-04BD8E470AD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
