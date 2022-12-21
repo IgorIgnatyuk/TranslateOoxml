@@ -51,13 +51,13 @@ public class TranslateOoxmlClientLibTests
     [TestMethod]
     public async Task Test_TranslateDocument_BadRequest_Zip()
     {
-        await Test_TranslateDocument("Test.zip", HttpStatusCode.BadRequest);
+        await Test_TranslateDocument("Test.zip", HttpStatusCode.UnsupportedMediaType);
     }
 
     [TestMethod]
     public async Task Test_TranslateDocument_BadRequest_Txt()
     {
-        await Test_TranslateDocument("Test.txt", HttpStatusCode.BadRequest);
+        await Test_TranslateDocument("Test.txt", HttpStatusCode.UnsupportedMediaType);
     }
 
     [TestMethod]

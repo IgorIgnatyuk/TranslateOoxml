@@ -56,22 +56,22 @@ internal static class TranslateOoxmlService
                 catch (InvalidDataException)
                 {
                     app.Logger.LogError("Not a ZIP archive");
-                    response.StatusCode = 400;
+                    response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
                 }
                 catch (UnsupportedFileFormatException ex)
                 {
                     app.Logger.LogError("{ExceptionMessage}", ex.Message);
-                    response.StatusCode = 400;
+                    response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
                 }
                 catch (Exception ex)
                 {
                     app.Logger.LogError("Exception thrown: {ExceptionMessage}", ex.Message);
-                    response.StatusCode = 500;
+                    response.StatusCode = StatusCodes.Status500InternalServerError;
                 }
             })
             .Accepts<IFormFile>("application/octet-stream")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status415UnsupportedMediaType)
             .Produces(StatusCodes.Status500InternalServerError)
             .WithName("PostTranslateOoxml");
 
