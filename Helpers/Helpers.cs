@@ -1,6 +1,6 @@
 ﻿namespace Helpers
 {
-    public class Equality
+    public static class Equality
     {
         public static bool StreamsAreEqual(Stream stream1, Stream stream2)
         {
