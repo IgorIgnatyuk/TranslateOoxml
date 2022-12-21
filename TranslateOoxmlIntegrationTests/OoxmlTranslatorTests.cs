@@ -9,7 +9,7 @@ namespace TranslateOoxmlIntegrationTests;
 [TestClass]
 public class OoxmlTranslatorTests
 {
-    private static readonly string testDir = "..\\..\\..\\TestDocuments\\";
+    private static readonly string testDir = "..\\..\\..\\..\\TestDocuments\\";
     private static readonly string inputDir = testDir + "Input\\";
     private static readonly string outputDir = testDir + "Output\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";

@@ -6,9 +6,7 @@ namespace TranslateOoxmlServiceTests;
 [TestClass]
 public class TranslateOoxmlServiceTests
 {
-    private static readonly string testDir =
-        "..\\..\\..\\..\\TranslateOoxmlIntegrationTests\\TestDocuments\\";
-
+    private static readonly string testDir = "..\\..\\..\\..\\TestDocuments\\";
     private static readonly string inputDir = testDir + "Input\\";
     private static readonly string expectedOutputDir = testDir + "ExpectedOutput\\";
 
