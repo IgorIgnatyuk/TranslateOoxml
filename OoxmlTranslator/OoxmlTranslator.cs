@@ -119,7 +119,14 @@ public static class OoxmlTranslator
             throw new FileNotFoundException(null, sourcePath);
 
         Copy(sourcePath, targetPath, true);
-        using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
-        await TranslateZipArchive(zipArchive, translate);
+        try
+        {
+            using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
+            await TranslateZipArchive(zipArchive, translate);
+        }
+        catch (InvalidDataException)
+        {
+            throw new UnsupportedFileFormatException();
+        }
     }
 }

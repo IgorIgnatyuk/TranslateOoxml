@@ -164,9 +164,9 @@ public class OoxmlTranslatorTests
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_InvalidData_Txt()
+    public async Task Test_TranslateDocument_UnsupportedFileFormat_Txt()
     {
-        await Assert.ThrowsExceptionAsync<InvalidDataException>(
+        await Assert.ThrowsExceptionAsync<UnsupportedFileFormatException>(
             async () => await Test_TranslateDocument("Test.txt"));
     }
 }
