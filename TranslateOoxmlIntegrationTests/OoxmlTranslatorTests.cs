@@ -135,6 +135,13 @@ public class OoxmlTranslatorTests
             () => Test_TranslateZipArchive("Test.zip"));
     }
 
+    [TestMethod]
+    public void Test_TranslateZipArchive_WrongFormat_Txt()
+    {
+        Assert.ThrowsException<InvalidDataException>(
+            () => Test_TranslateZipArchive("Test.txt"));
+    }
+
     private static void Test_TranslateDocument(string filename)
     {
         EnsureOutput();
@@ -171,6 +178,13 @@ public class OoxmlTranslatorTests
     {
         Assert.ThrowsException<FileNotFoundException>(
             () => Test_TranslateDocument("Test.html"));
+    }
+
+    [TestMethod]
+    public void Test_TranslateDocument_UnsupportedFileFormatException_Zip()
+    {
+        Assert.ThrowsException<UnsupportedFileFormatException>(
+            () => Test_TranslateDocument("Test.zip"));
     }
 
     [TestMethod]
