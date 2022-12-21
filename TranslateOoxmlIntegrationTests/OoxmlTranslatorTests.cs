@@ -181,14 +181,14 @@ public class OoxmlTranslatorTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_UnsupportedFileFormatException_Zip()
+    public void Test_TranslateDocument_UnsupportedFileFormat_Zip()
     {
         Assert.ThrowsException<UnsupportedFileFormatException>(
             () => Test_TranslateDocument("Test.zip"));
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_InvalidDataException_Txt()
+    public void Test_TranslateDocument_InvalidData_Txt()
     {
         Assert.ThrowsException<InvalidDataException>(
             () => Test_TranslateDocument("Test.txt"));

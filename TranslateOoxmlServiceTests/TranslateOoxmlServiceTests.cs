@@ -85,13 +85,13 @@ public class TranslateOoxmlServiceTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Zip()
+    public void Test_TranslateDocument_BadRequest_Zip()
     {
         Test_PostToTranslateOoxmlService("Test.zip", HttpStatusCode.BadRequest);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Txt()
+    public void Test_TranslateDocument_BadRequest_Txt()
     {
         Test_PostToTranslateOoxmlService("Test.txt", HttpStatusCode.BadRequest);
     }
