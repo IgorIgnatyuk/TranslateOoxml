@@ -40,6 +40,7 @@ public static class TranslateOoxmlClientLib
         using var response =
             await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
 
+        if (response.IsSuccessStatusCode)
         {
             using var responseHttpContent = response.Content;
             using var targetStream = File.Create(targetPath);
