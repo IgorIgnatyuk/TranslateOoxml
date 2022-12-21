@@ -29,19 +29,18 @@ public class TranslateOoxmlServiceTests
         return response.StatusCode;
     }
 
-    private static void Test_PostToTranslateOoxmlService(
+    private static async Task Test_PostToTranslateOoxmlService(
         string filename,
         HttpStatusCode expectedStatusCode)
     {
         using var input = File.OpenRead(inputDir + filename);
         using var output = new MemoryStream();
 
-        var statusCode = PostToTranslateOoxmlService(
+        var statusCode = await PostToTranslateOoxmlService(
             input,
             output,
             "DE",
-            "https://localhost:7261/translate-ooxml")
-            .Result;
+            "https://localhost:7261/translate-ooxml");
 
         Assert.AreEqual(statusCode, expectedStatusCode);
 
@@ -54,32 +53,32 @@ public class TranslateOoxmlServiceTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Docx()
+    public async Task Test_TranslateDocument_Docx()
     {
-        Test_PostToTranslateOoxmlService("Test.docx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlService("Test.docx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Pptx()
+    public async Task Test_TranslateDocument_Pptx()
     {
-        Test_PostToTranslateOoxmlService("Test.pptx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlService("Test.pptx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Xlsx()
+    public async Task Test_TranslateDocument_Xlsx()
     {
-        Test_PostToTranslateOoxmlService("Test.xlsx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlService("Test.xlsx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_BadRequest_Zip()
+    public async Task Test_TranslateDocument_BadRequest_Zip()
     {
-        Test_PostToTranslateOoxmlService("Test.zip", HttpStatusCode.BadRequest);
+        await Test_PostToTranslateOoxmlService("Test.zip", HttpStatusCode.BadRequest);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_BadRequest_Txt()
+    public async Task Test_TranslateDocument_BadRequest_Txt()
     {
-        Test_PostToTranslateOoxmlService("Test.txt", HttpStatusCode.BadRequest);
+        await Test_PostToTranslateOoxmlService("Test.txt", HttpStatusCode.BadRequest);
     }
 }

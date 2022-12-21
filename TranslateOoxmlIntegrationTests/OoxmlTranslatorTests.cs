@@ -27,7 +27,7 @@ public class OoxmlTranslatorTests
         Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
     }
 
-    private static void Test_TranslateZipArchiveMethod(
+    private static async Task Test_TranslateZipArchiveMethod(
         string filename,
         Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod,
         bool expectedSuccess)
@@ -36,10 +36,9 @@ public class OoxmlTranslatorTests
         bool success;
         using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
         {
-            success = translateZipArchiveMethod(
+            success = await translateZipArchiveMethod(
                 zipArchive,
-                async (text) => await TranslateXml(text, "DE"))
-                .Result;
+                async (text) => await TranslateXml(text, "DE"));
 
             Assert.AreEqual(success, expectedSuccess);
         }
@@ -48,135 +47,133 @@ public class OoxmlTranslatorTests
     }
 
     [TestMethod]
-    public void Test_TranslateDocxZipArchive()
+    public async Task Test_TranslateDocxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.docx", TranslateDocxZipArchive, true);
+        await Test_TranslateZipArchiveMethod("Test.docx", TranslateDocxZipArchive, true);
     }
 
     [TestMethod]
-    public void Test_TranslatePptxZipArchive()
+    public async Task Test_TranslatePptxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.pptx", TranslatePptxZipArchive, true);
+        await Test_TranslateZipArchiveMethod("Test.pptx", TranslatePptxZipArchive, true);
     }
 
     [TestMethod]
-    public void Test_TranslateXlsxZipArchive()
+    public async Task Test_TranslateXlsxZipArchive()
     {
-        Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive, true);
+        await Test_TranslateZipArchiveMethod("Test.xlsx", TranslateXlsxZipArchive, true);
     }
 
     [TestMethod]
-    public void Test_TranslateDocxZipArchive_WrongFormat()
+    public async Task Test_TranslateDocxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod("Test.pptx", TranslateDocxZipArchive, false);
+        await Test_TranslateZipArchiveMethod("Test.pptx", TranslateDocxZipArchive, false);
     }
 
     [TestMethod]
-    public void Test_TranslatePptxZipArchive_WrongFormat()
+    public async Task Test_TranslatePptxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod("Test.xlsx", TranslatePptxZipArchive, false);
+        await Test_TranslateZipArchiveMethod("Test.xlsx", TranslatePptxZipArchive, false);
     }
 
     [TestMethod]
-    public void Test_TranslateXlsxZipArchive_WrongFormat()
+    public async Task Test_TranslateXlsxZipArchive_WrongFormat()
     {
-        Test_TranslateZipArchiveMethod("Test.docx", TranslateXlsxZipArchive, false);
+        await Test_TranslateZipArchiveMethod("Test.docx", TranslateXlsxZipArchive, false);
     }
 
-    private static void Test_TranslateZipArchive(string filename)
+    private static async Task Test_TranslateZipArchive(string filename)
     {
         CopyToOutput(filename);
         using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
         {
-            TranslateZipArchive(
+            await TranslateZipArchive(
                 zipArchive,
-                async (text) => await TranslateXml(text, "DE"))
-                .GetAwaiter().GetResult();
+                async (text) => await TranslateXml(text, "DE"));
         }
         AssertExpectedOutput(filename);
     }
 
     [TestMethod]
-    public void Test_TranslateZipArchive_Docx()
+    public async Task Test_TranslateZipArchive_Docx()
     {
-        Test_TranslateZipArchive("Test.docx");
+        await Test_TranslateZipArchive("Test.docx");
     }
 
     [TestMethod]
-    public void Test_TranslateZipArchive_Pptx()
+    public async Task Test_TranslateZipArchive_Pptx()
     {
-        Test_TranslateZipArchive("Test.pptx");
+        await Test_TranslateZipArchive("Test.pptx");
     }
 
     [TestMethod]
-    public void Test_TranslateZipArchive_Xlsx()
+    public async Task Test_TranslateZipArchive_Xlsx()
     {
-        Test_TranslateZipArchive("Test.xlsx");
+        await Test_TranslateZipArchive("Test.xlsx");
     }
 
     [TestMethod]
-    public void Test_TranslateZipArchive_WrongFormat_Zip()
+    public async Task Test_TranslateZipArchive_WrongFormat_Zip()
     {
-        Assert.ThrowsException<UnsupportedFileFormatException>(
-            () => Test_TranslateZipArchive("Test.zip"));
+        await Assert.ThrowsExceptionAsync<UnsupportedFileFormatException>(
+            async () => await Test_TranslateZipArchive("Test.zip"));
     }
 
     [TestMethod]
-    public void Test_TranslateZipArchive_WrongFormat_Txt()
+    public async Task Test_TranslateZipArchive_WrongFormat_Txt()
     {
-        Assert.ThrowsException<InvalidDataException>(
-            () => Test_TranslateZipArchive("Test.txt"));
+        await Assert.ThrowsExceptionAsync<InvalidDataException>(
+            async () => await Test_TranslateZipArchive("Test.txt"));
     }
 
-    private static void Test_TranslateDocument(string filename)
+    private static async Task Test_TranslateDocument(string filename)
     {
         EnsureOutput();
 
-        TranslateDocument(
+        await TranslateDocument(
             inputDir + filename,
             outputDir + filename,
-            async (text) => await TranslateXml(text, "DE"))
-            .GetAwaiter().GetResult();
+            async (text) => await TranslateXml(text, "DE"));
 
         AssertExpectedOutput(filename);
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Docx()
+    public async Task Test_TranslateDocument_Docx()
     {
-        Test_TranslateDocument("Test.docx");
+        await Test_TranslateDocument("Test.docx");
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Pptx()
+    public async Task Test_TranslateDocument_Pptx()
     {
-        Test_TranslateDocument("Test.pptx");
+        await Test_TranslateDocument("Test.pptx");
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_Xlsx()
+    public async Task Test_TranslateDocument_Xlsx()
     {
-        Test_TranslateDocument("Test.xlsx");
+        await Test_TranslateDocument("Test.xlsx");
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_FileNotFound_Html()
+    public async Task Test_TranslateDocument_FileNotFound_Html()
     {
-        Assert.ThrowsException<FileNotFoundException>(
-            () => Test_TranslateDocument("Test.html"));
+        await Assert.ThrowsExceptionAsync<FileNotFoundException>(
+            async () => await Test_TranslateDocument("Test.html"));
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_UnsupportedFileFormat_Zip()
+    public async Task Test_TranslateDocument_UnsupportedFileFormat_Zip()
     {
-        Assert.ThrowsException<UnsupportedFileFormatException>(
-            () => Test_TranslateDocument("Test.zip"));
+        await Assert.ThrowsExceptionAsync<UnsupportedFileFormatException>(
+            async () => await Test_TranslateDocument("Test.zip"));
     }
 
     [TestMethod]
-    public void Test_TranslateDocument_InvalidData_Txt()
+    public async Task Test_TranslateDocument_InvalidData_Txt()
     {
-        Assert.ThrowsException<InvalidDataException>(
-            () => Test_TranslateDocument("Test.txt"));
+        await Assert.ThrowsExceptionAsync<InvalidDataException>(
+            async () => await Test_TranslateDocument("Test.txt"));
     }
 }
