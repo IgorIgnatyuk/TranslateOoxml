@@ -107,7 +107,7 @@ public static class OoxmlTranslator
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
     /// </exception>
-    /// <exception cref="Exception">
+    /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
     public static async Task TranslateDocument(
