@@ -29,10 +29,12 @@ public static class TranslateOoxmlServiceLib
         log("Copying the request body content to a memory stream");
         var stream = new MemoryStream();
         await requestBody.CopyToAsync(stream);
+
         try
         {
             log("Opening the memory stream as a ZIP archive");
             using var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
+
             log("Translating the ZIP archive");
             await TranslateZipArchive(
                 zipArchive,
@@ -42,6 +44,7 @@ public static class TranslateOoxmlServiceLib
         {
             throw new UnsupportedFileFormatException();
         }
+
         log("Copying the translated ZIP archive to the response body content");
         stream.Position = 0;
         await stream.CopyToAsync(responseBody);
