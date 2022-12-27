@@ -1,3 +1,4 @@
+using static TranslateOoxml.OoxmlTranslator;
 using static TranslateOoxmlServiceLib.TranslateOoxmlServiceLib;
 
 namespace TranslateOoxml;
@@ -26,14 +27,38 @@ internal static class TranslateOoxmlService
             async (
                 string targetLanguage,
                 HttpRequest request,
-                HttpResponse response)
-                =>
-            await ProcessPostTranslateOoxml(
-                targetLanguage,
-                request,
-                response,
-                app.Logger)
-            )
+                HttpResponse response) =>
+            {
+                var logger = app.Logger;
+                logger.LogInformation(
+                    "Translating OOXML ({ContentLength} bytes) to {TargetLanguage}",
+                    request.ContentLength, targetLanguage);
+
+                try
+                {
+                    response.ContentType = "application/octet-stream";
+                    await ProcessPostTranslateOoxml(
+                        targetLanguage,
+                        request.Body,
+                        response.Body,
+                        message => logger.LogDebug(message));
+                }
+                catch (InvalidDataException)
+                {
+                    logger.LogError("Not a ZIP archive");
+                    response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                }
+                catch (UnsupportedFileFormatException ex)
+                {
+                    logger.LogError("{ExceptionMessage}", ex.Message);
+                    response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError("Exception thrown: {ExceptionMessage}", ex.Message);
+                    response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+            })
             .Accepts<IFormFile>("application/octet-stream")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status415UnsupportedMediaType)

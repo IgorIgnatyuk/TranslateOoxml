@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using static TranslateOoxml.DeepLTranslator;
 using static TranslateOoxml.OoxmlTranslator;
 
@@ -15,56 +13,30 @@ public static class TranslateOoxmlServiceLib
     /// Processes a HTTP request to the TranslateOoxml service.
     /// </summary>
     /// <param name="targetLanguage">The target language.</param>
-    /// <param name="request">The HTTP request.</param>
-    /// <param name="response">The HTTP response.</param>
-    /// <param name="logger">The logger.</param>
+    /// <param name="requestBody">The HTTP request body.</param>
+    /// <param name="responseBody">The HTTP response body.</param>
+    /// <param name="log">The logging delegate.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task ProcessPostTranslateOoxml(
         string targetLanguage,
-        HttpRequest request,
-        HttpResponse response,
-        ILogger logger)
+        Stream requestBody,
+        Stream responseBody,
+        Action<string> log)
     {
-        logger.LogInformation(
-            "Translating OOXML ({ContentLength} bytes) to {TargetLanguage}",
-            request.ContentLength, targetLanguage);
+        log("Copying the request body content to a memory stream");
+        var stream = new MemoryStream();
+        await requestBody.CopyToAsync(stream);
 
-        try
+        log("Opening the memory stream as a ZIP archive");
+        using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true))
         {
-            logger.LogDebug("Copying the request body content to a memory stream");
-            var stream = new MemoryStream();
-            await request.Body.CopyToAsync(stream);
-
-            logger.LogDebug("Opening the memory stream as a ZIP archive");
-            using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true))
-            {
-                logger.LogDebug("Translating the ZIP archive");
-                await TranslateZipArchive(
-                    zipArchive,
-                    async (text) => await TranslateXml(text, targetLanguage));
-            }
-            logger.LogDebug("Setting Content-Type to application/octet-stream");
-            response.ContentType = "application/octet-stream";
-
-            logger.LogDebug(
-                "Copying the translated ZIP archive to the response body content");
-            stream.Position = 0;
-            await stream.CopyToAsync(response.Body);
+            log("Translating the ZIP archive");
+            await TranslateZipArchive(
+                zipArchive,
+                async (text) => await TranslateXml(text, targetLanguage));
         }
-        catch (InvalidDataException)
-        {
-            logger.LogError("Not a ZIP archive");
-            response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-        }
-        catch (UnsupportedFileFormatException ex)
-        {
-            logger.LogError("{ExceptionMessage}", ex.Message);
-            response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("Exception thrown: {ExceptionMessage}", ex.Message);
-            response.StatusCode = StatusCodes.Status500InternalServerError;
-        }
+        log("Copying the translated ZIP archive to the response body content");
+        stream.Position = 0;
+        await stream.CopyToAsync(responseBody);
     }
 }
