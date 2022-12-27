@@ -41,7 +41,7 @@ internal static class TranslateOoxmlService
                         targetLanguage,
                         request.Body,
                         response.Body,
-                        message => logger.LogDebug(message));
+                        message => logger.LogDebug("{Message}", message));
                 }
                 catch (UnsupportedFileFormatException ex)
                 {
