@@ -43,11 +43,6 @@ internal static class TranslateOoxmlService
                         response.Body,
                         message => logger.LogDebug(message));
                 }
-                catch (InvalidDataException)
-                {
-                    logger.LogError("Not a ZIP archive");
-                    response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                }
                 catch (UnsupportedFileFormatException ex)
                 {
                     logger.LogError("{ExceptionMessage}", ex.Message);
