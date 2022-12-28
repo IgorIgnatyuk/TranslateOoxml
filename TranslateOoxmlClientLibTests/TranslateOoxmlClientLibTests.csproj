@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Helpers\TranslateOoxmlHelpers.csproj" />
     <ProjectReference Include="..\TranslateOoxmlClientLib\TranslateOoxmlClientLib.csproj" />
+    <ProjectReference Include="..\TranslateOoxmlTestDirectories\TranslateOoxmlTestDirectories.csproj" />
   </ItemGroup>
 
 </Project>

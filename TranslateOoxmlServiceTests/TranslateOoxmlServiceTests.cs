@@ -1,6 +1,6 @@
 using System.Net;
 using static Helpers.Equality;
-using static Helpers.TestDirectories;
+using static TranslateOoxml.TestDirectories;
 
 namespace TranslateOoxmlServiceTests;
 

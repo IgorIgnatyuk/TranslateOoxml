@@ -1,9 +1,9 @@
 ﻿using System.IO.Compression;
 using static Helpers.Equality;
-using static Helpers.TestDirectories;
 using static System.IO.File;
 using static TranslateOoxml.DeepLTranslator;
 using static TranslateOoxml.OoxmlTranslator;
+using static TranslateOoxml.TestDirectories;
 
 namespace TranslateOoxmlIntegrationTests;
 
