@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlLibUnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlLibIntegrationTests", "TranslateOoxmlIntegrationTests\TranslateOoxmlLibIntegrationTests.csproj", "{A1048CE4-311F-4742-961E-2ADFBED22C80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlLib", "OoxmlTranslator\TranslateOoxmlLib.csproj", "{1E4EA610-485E-4893-ADD4-EEDD7656D11A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlLib", "TranslateOoxmlLib\TranslateOoxmlLib.csproj", "{1E4EA610-485E-4893-ADD4-EEDD7656D11A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlService", "TranslateOoxmlService\TranslateOoxmlService.csproj", "{8125D1DD-F66F-47E6-8F4F-E877DD89C8AC}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlClientLibTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceTests", "TranslateOoxmlServiceTests\TranslateOoxmlServiceTests.csproj", "{2A74A254-4490-47D8-A592-FEFA908721F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlHelpers", "Helpers\TranslateOoxmlHelpers.csproj", "{0392B337-31B8-4302-B64F-04BD8E470AD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlHelpers", "TranslateOoxmlHelpers\TranslateOoxmlHelpers.csproj", "{0392B337-31B8-4302-B64F-04BD8E470AD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceLib", "TranslateOoxmlServiceLib\TranslateOoxmlServiceLib.csproj", "{0020339B-AC34-4958-8132-E8E2FC0F262A}"
 EndProject
