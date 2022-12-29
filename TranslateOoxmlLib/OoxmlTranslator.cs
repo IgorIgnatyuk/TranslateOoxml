@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
 using static System.IO.File;
-using static TranslateOoxml.ZipArchiveEntryExtensions.Extensions;
+using static TranslateOoxml.Extensions.ZipArchiveEntryExtensions;
 
 namespace TranslateOoxml;
 

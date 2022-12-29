@@ -1,11 +1,11 @@
 ﻿using System.IO.Compression;
 
-namespace TranslateOoxml.ZipArchiveEntryExtensions;
+namespace TranslateOoxml.Extensions;
 
 /// <summary>
 /// Translation extensions for System.IO.Compression.ZipArchiveEntry.
 /// </summary>
-public static class Extensions
+public static class ZipArchiveEntryExtensions
 {
     /// <summary>
     /// Reads the content of a ZipArchiveEntry.

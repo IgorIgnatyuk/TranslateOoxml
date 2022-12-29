@@ -1,5 +1,5 @@
 using System.IO.Compression;
-using static TranslateOoxml.ZipArchiveEntryExtensions.Extensions;
+using static TranslateOoxml.Extensions.ZipArchiveEntryExtensions;
 
 namespace TranslateOoxmlUnitTests;
 
