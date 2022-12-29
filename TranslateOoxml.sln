@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlClientLibTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceTests", "TranslateOoxmlServiceTests\TranslateOoxmlServiceTests.csproj", "{2A74A254-4490-47D8-A592-FEFA908721F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlHelpers", "TranslateOoxmlHelpers\TranslateOoxmlHelpers.csproj", "{0392B337-31B8-4302-B64F-04BD8E470AD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlTestHelpers", "TranslateOoxmlHelpers\TranslateOoxmlTestHelpers.csproj", "{0392B337-31B8-4302-B64F-04BD8E470AD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceLib", "TranslateOoxmlServiceLib\TranslateOoxmlServiceLib.csproj", "{0020339B-AC34-4958-8132-E8E2FC0F262A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlTestDirectories", "TranslateOoxmlTestDirectories\TranslateOoxmlTestDirectories.csproj", "{19ED2618-7025-40E6-8351-8CCA4D8E1583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlTestDirectories", "TranslateOoxmlTestDirectories\TranslateOoxmlTestDirectories.csproj", "{19ED2618-7025-40E6-8351-8CCA4D8E1583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
 ﻿using System.IO.Compression;
 using static System.IO.File;
 using static TranslateOoxml.DeepLTranslator;
-using static TranslateOoxml.Helpers.Equality;
 using static TranslateOoxml.OoxmlTranslator;
+using static TranslateOoxml.Test.Helpers.Equality;
 using static TranslateOoxml.Test.TestDirectories;
 
 namespace TranslateOoxml.Test;

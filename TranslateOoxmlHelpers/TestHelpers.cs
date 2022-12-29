@@ -1,4 +1,4 @@
-﻿namespace TranslateOoxml.Helpers
+﻿namespace TranslateOoxml.Test.Helpers
 {
     public static class Equality
     {

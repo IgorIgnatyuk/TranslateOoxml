@@ -1,5 +1,5 @@
 using System.Net;
-using static TranslateOoxml.Helpers.Equality;
+using static TranslateOoxml.Test.Helpers.Equality;
 using static TranslateOoxml.Test.TestDirectories;
 using static TranslateOoxml.TranslateOoxmlClientLib;
 
