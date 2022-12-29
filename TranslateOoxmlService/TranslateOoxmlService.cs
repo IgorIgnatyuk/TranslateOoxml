@@ -3,7 +3,7 @@ using static TranslateOoxml.TranslateOoxmlServiceLib;
 
 namespace TranslateOoxml;
 
-internal static class TranslateOoxmlService
+internal static class Program
 {
     private static void Main()
     {

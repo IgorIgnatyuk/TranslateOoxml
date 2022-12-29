@@ -4,7 +4,7 @@ using static TranslateOoxml.TranslateOoxmlClientLib;
 
 namespace TranslateOoxml;
 
-internal static class TranslateOoxmlClient
+internal static class Program
 {
     private static async Task Main(string[] args)
     {
