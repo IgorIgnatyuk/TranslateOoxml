@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlServiceLib", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslateOoxmlTestDirectories", "TranslateOoxmlTestDirectories\TranslateOoxmlTestDirectories.csproj", "{19ED2618-7025-40E6-8351-8CCA4D8E1583}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslateOoxmlServiceLibTests", "TranslateOoxmlServiceLibTests\TranslateOoxmlServiceLibTests.csproj", "{DC347DD7-ED99-44CB-B96A-0169C5831A61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{19ED2618-7025-40E6-8351-8CCA4D8E1583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19ED2618-7025-40E6-8351-8CCA4D8E1583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19ED2618-7025-40E6-8351-8CCA4D8E1583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC347DD7-ED99-44CB-B96A-0169C5831A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC347DD7-ED99-44CB-B96A-0169C5831A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC347DD7-ED99-44CB-B96A-0169C5831A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC347DD7-ED99-44CB-B96A-0169C5831A61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
