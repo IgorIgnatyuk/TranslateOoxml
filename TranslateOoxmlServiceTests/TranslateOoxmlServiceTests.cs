@@ -1,8 +1,8 @@
 using System.Net;
-using static Helpers.Equality;
-using static TranslateOoxml.TestDirectories;
+using static TranslateOoxml.Helpers.Equality;
+using static TranslateOoxml.Test.TestDirectories;
 
-namespace TranslateOoxmlServiceTests;
+namespace TranslateOoxml.Test;
 
 [TestClass]
 public class TranslateOoxmlServiceTests

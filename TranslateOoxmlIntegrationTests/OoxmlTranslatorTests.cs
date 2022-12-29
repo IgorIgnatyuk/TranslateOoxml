@@ -1,11 +1,11 @@
 ﻿using System.IO.Compression;
-using static Helpers.Equality;
 using static System.IO.File;
 using static TranslateOoxml.DeepLTranslator;
+using static TranslateOoxml.Helpers.Equality;
 using static TranslateOoxml.OoxmlTranslator;
-using static TranslateOoxml.TestDirectories;
+using static TranslateOoxml.Test.TestDirectories;
 
-namespace TranslateOoxmlIntegrationTests;
+namespace TranslateOoxml.Test;
 
 [TestClass]
 public class OoxmlTranslatorTests

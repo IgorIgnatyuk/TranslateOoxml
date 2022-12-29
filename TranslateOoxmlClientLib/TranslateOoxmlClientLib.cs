@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using static System.IO.File;
 
-namespace TranslateOoxmlClient;
+namespace TranslateOoxml;
 
 /// <summary>
 /// TranslateOoxml service client library.

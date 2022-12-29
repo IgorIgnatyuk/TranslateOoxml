@@ -1,9 +1,9 @@
 using System.Net;
-using static Helpers.Equality;
-using static TranslateOoxml.TestDirectories;
-using static TranslateOoxmlClient.TranslateOoxmlClientLib;
+using static TranslateOoxml.Helpers.Equality;
+using static TranslateOoxml.Test.TestDirectories;
+using static TranslateOoxml.TranslateOoxmlClientLib;
 
-namespace TranslateOoxmlClientLibTests;
+namespace TranslateOoxml.Test;
 
 [TestClass]
 public class TranslateOoxmlClientLibTests

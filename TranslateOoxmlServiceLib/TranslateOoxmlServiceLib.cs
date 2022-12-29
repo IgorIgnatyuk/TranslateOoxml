@@ -2,7 +2,7 @@
 using static TranslateOoxml.DeepLTranslator;
 using static TranslateOoxml.OoxmlTranslator;
 
-namespace TranslateOoxmlServiceLib;
+namespace TranslateOoxml;
 
 /// <summary>
 /// TranslateOoxml service library.

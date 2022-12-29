@@ -2,7 +2,7 @@ using static System.Environment;
 using static TranslateOoxml.Constants;
 using static TranslateOoxml.DeepLTranslator;
 
-namespace TranslateOoxmlIntegrationTests;
+namespace TranslateOoxml.Test;
 
 [TestClass]
 public class DeepLTranslatorTests

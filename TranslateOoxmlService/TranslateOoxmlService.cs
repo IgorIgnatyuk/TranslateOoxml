@@ -1,5 +1,5 @@
 using static TranslateOoxml.OoxmlTranslator;
-using static TranslateOoxmlServiceLib.TranslateOoxmlServiceLib;
+using static TranslateOoxml.TranslateOoxmlServiceLib;
 
 namespace TranslateOoxml;
 

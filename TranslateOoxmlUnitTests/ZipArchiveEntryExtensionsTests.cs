@@ -1,7 +1,7 @@
 using System.IO.Compression;
 using static TranslateOoxml.Extensions.ZipArchiveEntryExtensions;
 
-namespace TranslateOoxmlUnitTests;
+namespace TranslateOoxml.Test;
 
 [TestClass]
 public class ZipArchiveEntryExtensionsTests

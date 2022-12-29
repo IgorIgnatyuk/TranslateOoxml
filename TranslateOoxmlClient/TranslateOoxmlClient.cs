@@ -1,8 +1,8 @@
 ﻿using static System.Environment;
 using static System.IO.Path;
-using static TranslateOoxmlClient.TranslateOoxmlClientLib;
+using static TranslateOoxml.TranslateOoxmlClientLib;
 
-namespace TranslateOoxmlClient;
+namespace TranslateOoxml;
 
 internal static class TranslateOoxmlClient
 {
