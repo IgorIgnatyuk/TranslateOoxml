@@ -18,6 +18,14 @@ public static class DeepLTranslator
     }
 
     /// <summary>
+    /// Exception thrown by the DeepLTranslator methods.
+    /// </summary>
+    public class DeepLTranslatorException : Exception
+    {
+        public DeepLTranslatorException(string message) : base(message) { }
+    }
+
+    /// <summary>
     /// Translates a text as an asynchronous operation.
     /// </summary>
     /// <param name="text">The text to translate.</param>
@@ -32,7 +40,7 @@ public static class DeepLTranslator
     {
         var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
         if (deepLAuthKey == null)
-            throw new Exception("Environment variable DEEPL_AUTH_KEY is not set");
+            throw new DeepLTranslatorException("Environment variable DEEPL_AUTH_KEY is not set");
 
         HttpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("DeepL-Auth-Key", deepLAuthKey);
@@ -51,6 +59,6 @@ public static class DeepLTranslator
         if (result != null)
             return result.Translations[0].Text;
         else
-            throw new Exception("Unexpected result");
+            throw new DeepLTranslatorException("Unexpected result");
     }
 }
