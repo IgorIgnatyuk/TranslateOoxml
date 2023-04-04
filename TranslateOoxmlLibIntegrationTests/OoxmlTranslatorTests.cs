@@ -27,23 +27,35 @@ public class OoxmlTranslatorTests
         Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
     }
 
+    private static void DeleteFromOutput(string filename)
+    {
+        Delete(outputDir + filename);
+    }
+
     private static async Task Test_TranslateZipArchiveMethod(
         string filename,
         Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethod,
         bool expectedSuccess)
     {
-        CopyToOutput(filename);
-        bool success;
-        using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+        try
         {
-            success = await translateZipArchiveMethod(
-                zipArchive,
-                async (text) => await TranslateXml(text, "DE"));
+            CopyToOutput(filename);
+            bool success;
+            using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+            {
+                success = await translateZipArchiveMethod(
+                    zipArchive,
+                    async (text) => await TranslateXml(text, "DE"));
 
-            Assert.AreEqual(success, expectedSuccess);
+                Assert.AreEqual(success, expectedSuccess);
+            }
+            if (success)
+                AssertExpectedOutput(filename);
         }
-        if (success)
-            AssertExpectedOutput(filename);
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
     }
 
     [TestMethod]
@@ -84,14 +96,21 @@ public class OoxmlTranslatorTests
 
     private static async Task Test_TranslateZipArchive(string filename)
     {
-        CopyToOutput(filename);
-        using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+        try
         {
-            await TranslateZipArchive(
-                zipArchive,
-                async (text) => await TranslateXml(text, "DE"));
+            CopyToOutput(filename);
+            using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+            {
+                await TranslateZipArchive(
+                    zipArchive,
+                    async (text) => await TranslateXml(text, "DE"));
+            }
+            AssertExpectedOutput(filename);
         }
-        AssertExpectedOutput(filename);
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
     }
 
     [TestMethod]
@@ -121,14 +140,21 @@ public class OoxmlTranslatorTests
 
     private static async Task Test_TranslateDocument(string filename)
     {
-        EnsureOutput();
+        try
+        {
+            EnsureOutput();
 
-        await TranslateDocument(
-            inputDir + filename,
-            outputDir + filename,
-            async (text) => await TranslateXml(text, "DE"));
+            await TranslateDocument(
+                inputDir + filename,
+                outputDir + filename,
+                async (text) => await TranslateXml(text, "DE"));
 
-        AssertExpectedOutput(filename);
+            AssertExpectedOutput(filename);
+        }
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
     }
 
     [TestMethod]

@@ -28,6 +28,8 @@ public class TranslateOoxmlClientLibTests
         Assert.AreEqual(statusCode, expectedStatusCode);
         if (statusCode == HttpStatusCode.OK)
             Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
+
+        File.Delete(outputDir + filename);
     }
 
     [TestMethod]
