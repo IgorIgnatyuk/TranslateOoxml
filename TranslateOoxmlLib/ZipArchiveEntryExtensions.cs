@@ -12,7 +12,7 @@ public static class ZipArchiveEntryExtensions
     /// </summary>
     /// <param name="zipArchiveEntry">The ZipArchiveEntry.</param>
     /// <returns>The content of the ZipArchiveEntry as a string.</returns>
-    public static async Task<string> Read(this ZipArchiveEntry zipArchiveEntry)
+    public static async Task<string> ReadAsync(this ZipArchiveEntry zipArchiveEntry)
     {
         using var stream = zipArchiveEntry.Open();
         using var reader = new StreamReader(stream);
@@ -24,7 +24,7 @@ public static class ZipArchiveEntryExtensions
     /// </summary>
     /// <param name="zipArchiveEntry">The ZipArchiveEntry.</param>
     /// <param name="contents">The text to be written.</param>
-    public static async Task Write(this ZipArchiveEntry zipArchiveEntry, string contents)
+    public static async Task WriteAsync(this ZipArchiveEntry zipArchiveEntry, string contents)
     {
         using var stream = zipArchiveEntry.Open();
         using var writer = new StreamWriter(stream);
@@ -38,10 +38,10 @@ public static class ZipArchiveEntryExtensions
     /// <param name="entry">The ZipArchiveEntry.</param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task Translate(
+    public static async Task TranslateAsync(
         this ZipArchiveEntry entry,
         Func<string, Task<string>> translate)
     {
-        await entry.Write(await translate(await entry.Read()));
+        await entry.WriteAsync(await translate(await entry.ReadAsync()));
     }
 }

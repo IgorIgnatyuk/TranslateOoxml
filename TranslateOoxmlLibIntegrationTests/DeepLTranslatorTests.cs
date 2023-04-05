@@ -8,21 +8,21 @@ namespace TranslateOoxml.Test;
 public class DeepLTranslatorTests
 {
     [TestMethod]
-    public async Task Test_TranslateXml()
+    public async Task Test_TranslateXmlAsync()
     {
-        var s = await TranslateXml("That is a test", "DE");
+        var s = await TranslateXmlAsync("That is a test", "DE");
         Assert.AreEqual(s, "Das ist ein Test");
     }
 
     [TestMethod]
-    public async Task Test_TranslateXml_DEEPL_AUTH_KEY_unset()
+    public async Task Test_DEEPL_AUTH_KEY_unset_TranslateXmlAsync()
     {
         var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
         SetEnvironmentVariable(DeepLAuthKey, null);
         try
         {
             await Assert.ThrowsExceptionAsync<DeepLTranslatorException>(
-                async () => { await TranslateXml("Test", "DE"); });
+                async () => { await TranslateXmlAsync("Test", "DE"); });
         }
         finally
         {

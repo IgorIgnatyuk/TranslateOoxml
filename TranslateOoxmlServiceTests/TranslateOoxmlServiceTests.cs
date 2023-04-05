@@ -14,7 +14,7 @@ public class TranslateOoxmlServiceTests
         HttpClient = new HttpClient();
     }
 
-    private static async Task<HttpStatusCode> PostToTranslateOoxmlService(
+    private static async Task<HttpStatusCode> PostToTranslateOoxmlServiceAsync(
         Stream sourceStream,
         Stream targetStream,
         string targetLanguage,
@@ -29,14 +29,14 @@ public class TranslateOoxmlServiceTests
         return response.StatusCode;
     }
 
-    private static async Task Test_PostToTranslateOoxmlService(
+    private static async Task Test_PostToTranslateOoxmlServiceAsync(
         string filename,
         HttpStatusCode expectedStatusCode)
     {
         using var input = File.OpenRead(inputDir + filename);
         using var output = new MemoryStream();
 
-        var statusCode = await PostToTranslateOoxmlService(
+        var statusCode = await PostToTranslateOoxmlServiceAsync(
             input,
             output,
             "DE",
@@ -53,32 +53,42 @@ public class TranslateOoxmlServiceTests
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Docx()
+    public async Task Test_Docx_PostToTranslateOoxmlServiceAsync()
     {
-        await Test_PostToTranslateOoxmlService("Test.docx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlServiceAsync(
+            "Test.docx",
+            HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Pptx()
+    public async Task Test_Pptx_PostToTranslateOoxmlServiceAsync()
     {
-        await Test_PostToTranslateOoxmlService("Test.pptx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlServiceAsync(
+            "Test.pptx",
+            HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Xlsx()
+    public async Task Test_Xlsx_PostToTranslateOoxmlServiceAsync()
     {
-        await Test_PostToTranslateOoxmlService("Test.xlsx", HttpStatusCode.OK);
+        await Test_PostToTranslateOoxmlServiceAsync(
+            "Test.xlsx",
+            HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_BadRequest_Zip()
+    public async Task Test_BadRequest_Zip_PostToTranslateOoxmlServiceAsync()
     {
-        await Test_PostToTranslateOoxmlService("Test.zip", HttpStatusCode.UnsupportedMediaType);
+        await Test_PostToTranslateOoxmlServiceAsync(
+            "Test.zip",
+            HttpStatusCode.UnsupportedMediaType);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_BadRequest_Txt()
+    public async Task Test_BadRequest_Txt_PostToTranslateOoxmlServiceAsync()
     {
-        await Test_PostToTranslateOoxmlService("Test.txt", HttpStatusCode.UnsupportedMediaType);
+        await Test_PostToTranslateOoxmlServiceAsync(
+            "Test.txt",
+            HttpStatusCode.UnsupportedMediaType);
     }
 }

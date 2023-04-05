@@ -20,10 +20,10 @@ internal static class Program
                     GetFileNameWithoutExtension(sourcePath) + '_' + targetLanguage +
                     GetExtension(sourcePath));
 
-                await TranslateDocument(
+                await TranslateDocumentAsync(
                     sourcePath,
                     targetPath,
-                    async (text) => await TranslateXml(text, targetLanguage));
+                    async (text) => await TranslateXmlAsync(text, targetLanguage));
             }
             catch (Exception e)
             {

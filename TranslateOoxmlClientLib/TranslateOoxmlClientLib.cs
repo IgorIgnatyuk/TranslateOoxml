@@ -26,7 +26,7 @@ public static class TranslateOoxmlClientLib
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
     /// </exception>
-    public static async Task<HttpStatusCode> TranslateDocument(
+    public static async Task<HttpStatusCode> TranslateDocumentAsync(
         string sourcePath,
         string targetPath,
         string targetLanguage,

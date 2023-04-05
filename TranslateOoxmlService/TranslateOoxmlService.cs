@@ -37,7 +37,7 @@ internal static class Program
                 try
                 {
                     response.ContentType = "application/octet-stream";
-                    await ProcessPostTranslateOoxml(
+                    await ProcessPostTranslateOoxmlAsync(
                         targetLanguage,
                         request.Body,
                         response.Body,

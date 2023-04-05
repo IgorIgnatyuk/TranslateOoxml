@@ -8,23 +8,23 @@ namespace TranslateOoxml.Test;
 [TestClass]
 public class TranslateOoxmlClientLibTests
 {
-    private static async Task<HttpStatusCode> Test_TranslateDocument(string filename)
+    private static async Task<HttpStatusCode> Test_TranslateDocumentAsync(string filename)
     {
         if (!Directory.Exists(outputDir))
             Directory.CreateDirectory(outputDir);
 
-        return await TranslateDocument(
+        return await TranslateDocumentAsync(
             inputDir + filename,
             outputDir + filename,
             "DE",
             "https://localhost:7261/translate-ooxml");
     }
 
-    private static async Task Test_TranslateDocument(
+    private static async Task Test_TranslateDocumentAsync(
         string filename,
         HttpStatusCode expectedStatusCode)
     {
-        var statusCode = await Test_TranslateDocument(filename);
+        var statusCode = await Test_TranslateDocumentAsync(filename);
         Assert.AreEqual(statusCode, expectedStatusCode);
         if (statusCode == HttpStatusCode.OK)
             Assert.IsTrue(FilesAreEqual(outputDir + filename, expectedOutputDir + filename));
@@ -33,39 +33,39 @@ public class TranslateOoxmlClientLibTests
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Docx()
+    public async Task Test_Docx_TranslateDocumentAsync()
     {
-        await Test_TranslateDocument("Test.docx", HttpStatusCode.OK);
+        await Test_TranslateDocumentAsync("Test.docx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Pptx()
+    public async Task Test_Pptx_TranslateDocumentAsync()
     {
-        await Test_TranslateDocument("Test.pptx", HttpStatusCode.OK);
+        await Test_TranslateDocumentAsync("Test.pptx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Xlsx()
+    public async Task Test_Xlsx_TranslateDocumentAsync()
     {
-        await Test_TranslateDocument("Test.xlsx", HttpStatusCode.OK);
+        await Test_TranslateDocumentAsync("Test.xlsx", HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_BadRequest_Zip()
+    public async Task Test_BadRequest_Zip_TranslateDocumentAsync()
     {
-        await Test_TranslateDocument("Test.zip", HttpStatusCode.UnsupportedMediaType);
+        await Test_TranslateDocumentAsync("Test.zip", HttpStatusCode.UnsupportedMediaType);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_BadRequest_Txt()
+    public async Task Test_BadRequest_Txt_TranslateDocumentAsync()
     {
-        await Test_TranslateDocument("Test.txt", HttpStatusCode.UnsupportedMediaType);
+        await Test_TranslateDocumentAsync("Test.txt", HttpStatusCode.UnsupportedMediaType);
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_FileNotFound_Html()
+    public async Task Test_FileNotFound_Html_TranslateDocumentAsync()
     {
         await Assert.ThrowsExceptionAsync<FileNotFoundException>(
-            async () => await Test_TranslateDocument("Test.html"));
+            async () => await Test_TranslateDocumentAsync("Test.html"));
     }
 }

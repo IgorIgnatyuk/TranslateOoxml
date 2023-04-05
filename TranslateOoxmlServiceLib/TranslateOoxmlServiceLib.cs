@@ -20,7 +20,7 @@ public static class TranslateOoxmlServiceLib
     /// Thrown when the source document format is not supported.
     /// </exception>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task ProcessPostTranslateOoxml(
+    public static async Task ProcessPostTranslateOoxmlAsync(
         string targetLanguage,
         Stream requestBody,
         Stream responseBody,
@@ -36,9 +36,9 @@ public static class TranslateOoxmlServiceLib
             using var zipArchive = new ZipArchive(stream, ZipArchiveMode.Update, true);
 
             log("Translating the ZIP archive");
-            await TranslateZipArchive(
+            await TranslateZipArchiveAsync(
                 zipArchive,
-                async (text) => await TranslateXml(text, targetLanguage));
+                async (text) => await TranslateXmlAsync(text, targetLanguage));
         }
         catch (InvalidDataException)
         {

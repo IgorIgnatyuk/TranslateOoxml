@@ -15,7 +15,7 @@ public static class OoxmlTranslator
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns><c>true</c> if the ZipArchive is a DOCX one; otherwise, <c>false</c>.</returns>
-    public static async Task<bool> TranslateDocxZipArchive(
+    public static async Task<bool> TranslateDocxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, Task<string>> translate)
     {
@@ -23,7 +23,7 @@ public static class OoxmlTranslator
         if (entry == null)
             return false;
 
-        await entry.Translate(translate);
+        await entry.TranslateAsync(translate);
         return true;
     }
 
@@ -33,7 +33,7 @@ public static class OoxmlTranslator
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns><c>true</c> if the ZipArchive is a PPTX one; otherwise, <c>false</c>.</returns>
-    public static async Task<bool> TranslatePptxZipArchive(
+    public static async Task<bool> TranslatePptxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, Task<string>> translate)
     {
@@ -42,7 +42,7 @@ public static class OoxmlTranslator
             if (entry.FullName.StartsWith("ppt/slides/slide"))
             {
                 slideFound = true;
-                await entry.Translate(translate);
+                await entry.TranslateAsync(translate);
             }
 
         return slideFound;
@@ -54,7 +54,7 @@ public static class OoxmlTranslator
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
     /// <returns><c>true</c> if the ZipArchive is a XLSX one; otherwise, <c>false</c>.</returns>
-    public static async Task<bool> TranslateXlsxZipArchive(
+    public static async Task<bool> TranslateXlsxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, Task<string>> translate)
     {
@@ -62,7 +62,7 @@ public static class OoxmlTranslator
         if (entry == null)
             return false;
 
-        await entry.Translate(translate);
+        await entry.TranslateAsync(translate);
         return true;
     }
 
@@ -85,14 +85,14 @@ public static class OoxmlTranslator
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
-    public static async Task TranslateZipArchive(
+    public static async Task TranslateZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, Task<string>> translate)
     {
         if (
-            !await TranslateDocxZipArchive(zipArchive, translate) &&
-            !await TranslatePptxZipArchive(zipArchive, translate) &&
-            !await TranslateXlsxZipArchive(zipArchive, translate))
+            !await TranslateDocxZipArchiveAsync(zipArchive, translate) &&
+            !await TranslatePptxZipArchiveAsync(zipArchive, translate) &&
+            !await TranslateXlsxZipArchiveAsync(zipArchive, translate))
 
             throw new UnsupportedFileFormatException();
     }
@@ -110,7 +110,7 @@ public static class OoxmlTranslator
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
-    public static async Task TranslateDocument(
+    public static async Task TranslateDocumentAsync(
         string sourcePath,
         string targetPath,
         Func<string, Task<string>> translate)
@@ -122,7 +122,7 @@ public static class OoxmlTranslator
         try
         {
             using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
-            await TranslateZipArchive(zipArchive, translate);
+            await TranslateZipArchiveAsync(zipArchive, translate);
         }
         catch (InvalidDataException)
         {

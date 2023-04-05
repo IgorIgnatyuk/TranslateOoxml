@@ -7,12 +7,12 @@ namespace TranslateOoxml.Test;
 [TestClass]
 public class TranslateOoxmlServiceLibTests
 {
-    private static async Task Test_ProcessPostTranslateOoxml(string filename)
+    private static async Task Test_ProcessPostTranslateOoxmlAsync(string filename)
     {
         using var input = File.OpenRead(inputDir + filename);
         using var output = new MemoryStream();
 
-        await ProcessPostTranslateOoxml("DE", input, output, message => { });
+        await ProcessPostTranslateOoxmlAsync("DE", input, output, message => { });
 
         output.Position = 0;
         using var expectedOutput = File.OpenRead(expectedOutputDir + filename);
@@ -20,20 +20,20 @@ public class TranslateOoxmlServiceLibTests
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Docx()
+    public async Task Test_Docx_ProcessPostTranslateOoxmlAsync()
     {
-        await Test_ProcessPostTranslateOoxml("Test.docx");
+        await Test_ProcessPostTranslateOoxmlAsync("Test.docx");
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Pptx()
+    public async Task Test_Pptx_ProcessPostTranslateOoxmlAsync()
     {
-        await Test_ProcessPostTranslateOoxml("Test.pptx");
+        await Test_ProcessPostTranslateOoxmlAsync("Test.pptx");
     }
 
     [TestMethod]
-    public async Task Test_TranslateDocument_Xlsx()
+    public async Task Test_Xlsx_ProcessPostTranslateOoxmlAsync()
     {
-        await Test_ProcessPostTranslateOoxml("Test.xlsx");
+        await Test_ProcessPostTranslateOoxmlAsync("Test.xlsx");
     }
 }
