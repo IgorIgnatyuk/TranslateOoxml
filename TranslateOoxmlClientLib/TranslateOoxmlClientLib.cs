@@ -38,13 +38,14 @@ public static class TranslateOoxmlClientLib
         using var sourceStream = File.OpenRead(sourcePath);
         using var requestHttpContent = new StreamContent(sourceStream);
         using var response =
-            await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent);
+            await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent)
+            .ConfigureAwait(false);
 
         if (response.IsSuccessStatusCode)
         {
             using var responseHttpContent = response.Content;
             using var targetStream = File.Create(targetPath);
-            await responseHttpContent.CopyToAsync(targetStream);
+            await responseHttpContent.CopyToAsync(targetStream).ConfigureAwait(false);
         }
         return response.StatusCode;
     }

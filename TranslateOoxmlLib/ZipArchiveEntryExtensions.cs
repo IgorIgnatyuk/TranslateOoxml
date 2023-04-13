@@ -16,7 +16,7 @@ public static class ZipArchiveEntryExtensions
     {
         using var stream = zipArchiveEntry.Open();
         using var reader = new StreamReader(stream);
-        return await reader.ReadToEndAsync();
+        return await reader.ReadToEndAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public static class ZipArchiveEntryExtensions
     {
         using var stream = zipArchiveEntry.Open();
         using var writer = new StreamWriter(stream);
-        await writer.WriteAsync(contents);
+        await writer.WriteAsync(contents).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -42,6 +42,7 @@ public static class ZipArchiveEntryExtensions
         this ZipArchiveEntry entry,
         Func<string, Task<string>> translate)
     {
-        await entry.WriteAsync(await translate(await entry.ReadAsync()));
+        await entry.WriteAsync(await translate(await entry.ReadAsync()
+            .ConfigureAwait(false)).ConfigureAwait(false)).ConfigureAwait(false);
     }
 }

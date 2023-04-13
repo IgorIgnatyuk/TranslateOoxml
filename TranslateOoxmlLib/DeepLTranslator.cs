@@ -52,10 +52,13 @@ public static class DeepLTranslator
             new KeyValuePair<string, string>("tag_handling", "xml")
         });
         using var response =
-            await HttpClient.PostAsync("https://api-free.deepl.com/v2/translate", httpContent);
+            await HttpClient.PostAsync("https://api-free.deepl.com/v2/translate", httpContent)
+            .ConfigureAwait(false);
 
         using var responseHttpContent = response.Content;
-        var result = await responseHttpContent.ReadFromJsonAsync<TranslateResult>();
+        var result = await responseHttpContent.ReadFromJsonAsync<TranslateResult>()
+            .ConfigureAwait(false);
+
         if (result != null)
             return result.Translations[0].Text;
         else

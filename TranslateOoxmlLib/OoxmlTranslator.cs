@@ -23,7 +23,7 @@ public static class OoxmlTranslator
         if (entry == null)
             return false;
 
-        await entry.TranslateAsync(translate);
+        await entry.TranslateAsync(translate).ConfigureAwait(false);
         return true;
     }
 
@@ -42,7 +42,7 @@ public static class OoxmlTranslator
             if (entry.FullName.StartsWith("ppt/slides/slide"))
             {
                 slideFound = true;
-                await entry.TranslateAsync(translate);
+                await entry.TranslateAsync(translate).ConfigureAwait(false);
             }
 
         return slideFound;
@@ -62,7 +62,7 @@ public static class OoxmlTranslator
         if (entry == null)
             return false;
 
-        await entry.TranslateAsync(translate);
+        await entry.TranslateAsync(translate).ConfigureAwait(false);
         return true;
     }
 
@@ -90,9 +90,9 @@ public static class OoxmlTranslator
         Func<string, Task<string>> translate)
     {
         if (
-            !await TranslateDocxZipArchiveAsync(zipArchive, translate) &&
-            !await TranslatePptxZipArchiveAsync(zipArchive, translate) &&
-            !await TranslateXlsxZipArchiveAsync(zipArchive, translate))
+            !await TranslateDocxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false) &&
+            !await TranslatePptxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false) &&
+            !await TranslateXlsxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false))
 
             throw new UnsupportedFileFormatException();
     }
@@ -122,7 +122,7 @@ public static class OoxmlTranslator
         try
         {
             using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
-            await TranslateZipArchiveAsync(zipArchive, translate);
+            await TranslateZipArchiveAsync(zipArchive, translate).ConfigureAwait(false);
         }
         catch (InvalidDataException)
         {
