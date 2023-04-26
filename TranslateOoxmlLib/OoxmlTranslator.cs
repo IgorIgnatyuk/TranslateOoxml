@@ -14,16 +14,18 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a DOCX one; otherwise, <c>false</c>.</returns>
     public static async Task<bool> TranslateDocxZipArchiveAsync(
         ZipArchive zipArchive,
-        Func<string, Task<string>> translate)
+        Func<string, CancellationToken, Task<string>> translate,
+        CancellationToken cancellationToken = default)
     {
         var entry = zipArchive.GetEntry("word/document.xml");
         if (entry == null)
             return false;
 
-        await entry.TranslateAsync(translate).ConfigureAwait(false);
+        await entry.TranslateAsync(translate, cancellationToken).ConfigureAwait(false);
         return true;
     }
 
@@ -32,17 +34,19 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a PPTX one; otherwise, <c>false</c>.</returns>
     public static async Task<bool> TranslatePptxZipArchiveAsync(
         ZipArchive zipArchive,
-        Func<string, Task<string>> translate)
+        Func<string, CancellationToken, Task<string>> translate,
+        CancellationToken cancellationToken = default)
     {
         var slideFound = false;
         foreach (var entry in zipArchive.Entries)
             if (entry.FullName.StartsWith("ppt/slides/slide"))
             {
                 slideFound = true;
-                await entry.TranslateAsync(translate).ConfigureAwait(false);
+                await entry.TranslateAsync(translate, cancellationToken).ConfigureAwait(false);
             }
 
         return slideFound;
@@ -53,16 +57,18 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a XLSX one; otherwise, <c>false</c>.</returns>
     public static async Task<bool> TranslateXlsxZipArchiveAsync(
         ZipArchive zipArchive,
-        Func<string, Task<string>> translate)
+        Func<string, CancellationToken, Task<string>> translate,
+        CancellationToken cancellationToken = default)
     {
         var entry = zipArchive.GetEntry("xl/sharedStrings.xml");
         if (entry == null)
             return false;
 
-        await entry.TranslateAsync(translate).ConfigureAwait(false);
+        await entry.TranslateAsync(translate, cancellationToken).ConfigureAwait(false);
         return true;
     }
 
@@ -81,18 +87,23 @@ public static class OoxmlTranslator
     /// The OOXML ZipArchive to translate (opened in ZipArchiveMode.Update).
     /// </param>
     /// <param name="translate">The callback used for text translation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
     public static async Task TranslateZipArchiveAsync(
         ZipArchive zipArchive,
-        Func<string, Task<string>> translate)
+        Func<string, CancellationToken, Task<string>> translate,
+        CancellationToken cancellationToken = default)
     {
         if (
-            !await TranslateDocxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false) &&
-            !await TranslatePptxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false) &&
-            !await TranslateXlsxZipArchiveAsync(zipArchive, translate).ConfigureAwait(false))
+            !await TranslateDocxZipArchiveAsync(zipArchive, translate, cancellationToken)
+            .ConfigureAwait(false) &&
+            !await TranslatePptxZipArchiveAsync(zipArchive, translate, cancellationToken)
+            .ConfigureAwait(false) &&
+            !await TranslateXlsxZipArchiveAsync(zipArchive, translate, cancellationToken)
+            .ConfigureAwait(false))
 
             throw new UnsupportedFileFormatException();
     }
@@ -103,6 +114,7 @@ public static class OoxmlTranslator
     /// <param name="sourcePath">The source document path.</param>
     /// <param name="targetPath">The target document path.</param>
     /// <param name="translate">The callback used for text translation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
@@ -113,7 +125,8 @@ public static class OoxmlTranslator
     public static async Task TranslateDocumentAsync(
         string sourcePath,
         string targetPath,
-        Func<string, Task<string>> translate)
+        Func<string, CancellationToken, Task<string>> translate,
+        CancellationToken cancellationToken = default)
     {
         if (!Exists(sourcePath))
             throw new FileNotFoundException(null, sourcePath);
@@ -122,7 +135,8 @@ public static class OoxmlTranslator
         try
         {
             using var zipArchive = ZipFile.Open(targetPath, ZipArchiveMode.Update);
-            await TranslateZipArchiveAsync(zipArchive, translate).ConfigureAwait(false);
+            await TranslateZipArchiveAsync(zipArchive, translate, cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (InvalidDataException)
         {

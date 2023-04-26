@@ -30,13 +30,17 @@ public static class DeepLTranslator
     /// </summary>
     /// <param name="text">The text to translate.</param>
     /// <param name="targetLanguage">The target language.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>
     /// The task object representing the asynchronous operation that returns the translated text.
     /// </returns>
     /// <exception cref="Exception">
     /// Thrown when the environment variable DEEPL_AUTH_KEY is not set.
     /// </exception>
-    public static async Task<string> TranslateXmlAsync(string text, string targetLanguage)
+    public static async Task<string> TranslateXmlAsync(
+        string text,
+        string targetLanguage,
+        CancellationToken cancellationToken = default)
     {
         var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
         if (deepLAuthKey == null)
@@ -52,12 +56,14 @@ public static class DeepLTranslator
             new KeyValuePair<string, string>("tag_handling", "xml")
         });
         using var response =
-            await HttpClient.PostAsync("https://api-free.deepl.com/v2/translate", httpContent)
-            .ConfigureAwait(false);
+            await HttpClient.PostAsync(
+                "https://api-free.deepl.com/v2/translate",
+                httpContent,
+                cancellationToken).ConfigureAwait(false);
 
         using var responseHttpContent = response.Content;
-        var result = await responseHttpContent.ReadFromJsonAsync<TranslateResult>()
-            .ConfigureAwait(false);
+        var result = await responseHttpContent.ReadFromJsonAsync<TranslateResult>(
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (result != null)
             return result.Translations[0].Text;

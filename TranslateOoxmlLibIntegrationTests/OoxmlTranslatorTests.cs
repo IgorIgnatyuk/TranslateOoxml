@@ -34,7 +34,12 @@ public class OoxmlTranslatorTests
 
     private static async Task Test_TranslateZipArchiveMethodAsync(
         string filename,
-        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethodAsync,
+        Func<
+            ZipArchive,
+            Func<string, CancellationToken, Task<string>>,
+            CancellationToken,
+            Task<bool>
+            > translateZipArchiveMethodAsync,
         bool expectedSuccess)
     {
         try
@@ -45,7 +50,11 @@ public class OoxmlTranslatorTests
             {
                 success = await translateZipArchiveMethodAsync(
                     zipArchive,
-                    async (text) => await TranslateXmlAsync(text, "DE"));
+                    async (text, cancellationToken) => await TranslateXmlAsync(
+                        text,
+                        "DE",
+                        cancellationToken),
+                   default);
 
                 Assert.AreEqual(success, expectedSuccess);
             }
@@ -94,6 +103,64 @@ public class OoxmlTranslatorTests
         await Test_TranslateZipArchiveMethodAsync("Test.docx", TranslateXlsxZipArchiveAsync, false);
     }
 
+    private static async Task Test_Cancelling_TranslateZipArchiveMethodAsync(
+        string filename,
+        Func<
+            ZipArchive,
+            Func<string, CancellationToken, Task<string>>,
+            CancellationToken,
+            Task<bool>
+            > translateZipArchiveMethodAsync)
+    {
+        try
+        {
+            CopyToOutput(filename);
+            using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+            {
+                using var cts = new CancellationTokenSource();
+                var task = translateZipArchiveMethodAsync(
+                    zipArchive,
+                    async (text, cancellationToken) => await TranslateXmlAsync(
+                        text,
+                        "DE",
+                        cancellationToken),
+                   cts.Token);
+
+                await Task.Delay(1);
+                cts.Cancel();
+                await Assert.ThrowsExceptionAsync<TaskCanceledException>(async () => await task);
+            }
+        }
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
+    }
+
+    [TestMethod]
+    public async Task Test_Cancelling_TranslateDocxZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveMethodAsync(
+            "Test.docx",
+            TranslateDocxZipArchiveAsync);
+    }
+
+    [TestMethod]
+    public async Task Test_Cancelling_TranslatePptxZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveMethodAsync(
+            "Test.pptx",
+            TranslatePptxZipArchiveAsync);
+    }
+
+    [TestMethod]
+    public async Task Test_Cancelling_TranslateXlsxZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveMethodAsync(
+            "Test.xlsx",
+            TranslateXlsxZipArchiveAsync);
+    }
+
     private static async Task Test_TranslateZipArchiveAsync(string filename)
     {
         try
@@ -103,7 +170,10 @@ public class OoxmlTranslatorTests
             {
                 await TranslateZipArchiveAsync(
                     zipArchive,
-                    async (text) => await TranslateXmlAsync(text, "DE"));
+                    async (text, cancellationToken) => await TranslateXmlAsync(
+                        text,
+                        "DE",
+                        cancellationToken));
             }
             AssertExpectedOutput(filename);
         }
@@ -138,6 +208,51 @@ public class OoxmlTranslatorTests
             async () => await Test_TranslateZipArchiveAsync("Test.zip"));
     }
 
+    private static async Task Test_Cancelling_TranslateZipArchiveAsync(string filename)
+    {
+        try
+        {
+            CopyToOutput(filename);
+            using (var zipArchive = ZipFile.Open(outputDir + filename, ZipArchiveMode.Update))
+            {
+                using var cts = new CancellationTokenSource();
+                var task = TranslateZipArchiveAsync(
+                    zipArchive,
+                    async (text, cancellationToken) => await TranslateXmlAsync(
+                        text,
+                        "DE",
+                        cancellationToken),
+                    cts.Token);
+
+                await Task.Delay(1);
+                cts.Cancel();
+                await Assert.ThrowsExceptionAsync<TaskCanceledException>(async () => await task);
+            }
+        }
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
+    }
+
+    [TestMethod]
+    public async Task Test_Docx_Cancelling_TranslateZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveAsync("Test.docx");
+    }
+
+    [TestMethod]
+    public async Task Test_Pptx_Cancelling_TranslateZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveAsync("Test.pptx");
+    }
+
+    [TestMethod]
+    public async Task Test_Xlsx_Cancelling_TranslateZipArchiveAsync()
+    {
+        await Test_Cancelling_TranslateZipArchiveAsync("Test.xlsx");
+    }
+
     private static async Task Test_TranslateDocumentAsync(string filename)
     {
         try
@@ -147,7 +262,10 @@ public class OoxmlTranslatorTests
             await TranslateDocumentAsync(
                 inputDir + filename,
                 outputDir + filename,
-                async (text) => await TranslateXmlAsync(text, "DE"));
+                async (text, cancellationToken) => await TranslateXmlAsync(
+                    text,
+                    "DE",
+                    cancellationToken));
 
             AssertExpectedOutput(filename);
         }
@@ -194,5 +312,49 @@ public class OoxmlTranslatorTests
     {
         await Assert.ThrowsExceptionAsync<UnsupportedFileFormatException>(
             async () => await Test_TranslateDocumentAsync("Test.txt"));
+    }
+
+    private static async Task Test_Cancelling_TranslateDocumentAsync(string filename)
+    {
+        try
+        {
+            EnsureOutput();
+
+            using var cts = new CancellationTokenSource();
+            var task = TranslateDocumentAsync(
+                inputDir + filename,
+                outputDir + filename,
+                async (text, cancellationToken) => await TranslateXmlAsync(
+                    text,
+                    "DE",
+                    cancellationToken),
+                cts.Token);
+
+            await Task.Delay(1);
+            cts.Cancel();
+            await Assert.ThrowsExceptionAsync<TaskCanceledException>(async () => await task);
+        }
+        finally
+        {
+            DeleteFromOutput(filename);
+        }
+    }
+
+    [TestMethod]
+    public async Task Test_Docx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.docx");
+    }
+
+    [TestMethod]
+    public async Task Test_Pptx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.pptx");
+    }
+
+    [TestMethod]
+    public async Task Test_Xlsx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.xlsx");
     }
 }

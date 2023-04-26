@@ -29,4 +29,14 @@ public class DeepLTranslatorTests
             SetEnvironmentVariable(DeepLAuthKey, deepLAuthKey);
         }
     }
+
+    [TestMethod]
+    public async Task Test_Cancelling_TranslateXmlAsync()
+    {
+        using var cts = new CancellationTokenSource();
+        var task = TranslateXmlAsync("Test", "DE", cts.Token);
+        await Task.Delay(100);
+        cts.Cancel();
+        await Assert.ThrowsExceptionAsync<TaskCanceledException>(async () => await task);
+    }
 }

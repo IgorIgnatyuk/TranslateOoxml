@@ -16,6 +16,7 @@ public static class TranslateOoxmlServiceLib
     /// <param name="requestBody">The HTTP request body.</param>
     /// <param name="responseBody">The HTTP response body.</param>
     /// <param name="log">The logging delegate.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
@@ -24,11 +25,12 @@ public static class TranslateOoxmlServiceLib
         string targetLanguage,
         Stream requestBody,
         Stream responseBody,
-        Action<string> log)
+        Action<string> log,
+        CancellationToken cancellationToken = default)
     {
         log("Copying the request body content to a memory stream");
         var stream = new MemoryStream();
-        await requestBody.CopyToAsync(stream).ConfigureAwait(false);
+        await requestBody.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
 
         try
         {
@@ -38,8 +40,11 @@ public static class TranslateOoxmlServiceLib
             log("Translating the ZIP archive");
             await TranslateZipArchiveAsync(
                 zipArchive,
-                async (text) => await TranslateXmlAsync(text, targetLanguage)
-                .ConfigureAwait(false)).ConfigureAwait(false);
+                async (text, cancellationToken) => await TranslateXmlAsync(
+                    text,
+                    targetLanguage,
+                    cancellationToken).ConfigureAwait(false),
+                cancellationToken).ConfigureAwait(false);
         }
         catch (InvalidDataException)
         {
@@ -48,6 +53,6 @@ public static class TranslateOoxmlServiceLib
 
         log("Copying the translated ZIP archive to the response body content");
         stream.Position = 0;
-        await stream.CopyToAsync(responseBody).ConfigureAwait(false);
+        await stream.CopyToAsync(responseBody, cancellationToken).ConfigureAwait(false);
     }
 }
