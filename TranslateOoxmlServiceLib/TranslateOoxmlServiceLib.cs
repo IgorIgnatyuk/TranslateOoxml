@@ -40,11 +40,10 @@ public static class TranslateOoxmlServiceLib
             log("Translating the ZIP archive");
             await TranslateZipArchiveAsync(
                 zipArchive,
-                async (text, cancellationToken) => await TranslateXmlAsync(
+                async (text) => await TranslateXmlAsync(
                     text,
-                    targetLanguage,
-                    cancellationToken).ConfigureAwait(false),
-                cancellationToken).ConfigureAwait(false);
+                    targetLanguage)
+                .ConfigureAwait(false)).ConfigureAwait(false);
         }
         catch (InvalidDataException)
         {

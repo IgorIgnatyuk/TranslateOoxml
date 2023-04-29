@@ -34,12 +34,7 @@ public class OoxmlTranslatorTests
 
     private static async Task Test_TranslateZipArchiveMethodAsync(
         string filename,
-        Func<
-            ZipArchive,
-            Func<string, CancellationToken, Task<string>>,
-            CancellationToken,
-            Task<bool>
-            > translateZipArchiveMethodAsync,
+        Func<ZipArchive, Func<string, Task<string>>, Task<bool>> translateZipArchiveMethodAsync,
         bool expectedSuccess)
     {
         try
@@ -50,11 +45,7 @@ public class OoxmlTranslatorTests
             {
                 success = await translateZipArchiveMethodAsync(
                     zipArchive,
-                    async (text, cancellationToken) => await TranslateXmlAsync(
-                        text,
-                        "DE",
-                        cancellationToken),
-                   default);
+                    async (text) => await TranslateXmlAsync(text, "DE"));
 
                 Assert.AreEqual(success, expectedSuccess);
             }
@@ -170,10 +161,7 @@ public class OoxmlTranslatorTests
             {
                 await TranslateZipArchiveAsync(
                     zipArchive,
-                    async (text, cancellationToken) => await TranslateXmlAsync(
-                        text,
-                        "DE",
-                        cancellationToken));
+                    async (text) => await TranslateXmlAsync(text, "DE"));
             }
             AssertExpectedOutput(filename);
         }
@@ -262,10 +250,7 @@ public class OoxmlTranslatorTests
             await TranslateDocumentAsync(
                 inputDir + filename,
                 outputDir + filename,
-                async (text, cancellationToken) => await TranslateXmlAsync(
-                    text,
-                    "DE",
-                    cancellationToken));
+                async (text) => await TranslateXmlAsync(text, "DE"));
 
             AssertExpectedOutput(filename);
         }

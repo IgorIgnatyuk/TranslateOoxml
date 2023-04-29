@@ -14,8 +14,18 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a DOCX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslateDocxZipArchiveAsync(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        return await TranslateDocxZipArchiveAsync(
+            zipArchive,
+            async (text, cancellationToken) => await translate(text));
+    }
+
+    /// <inheritdoc cref="TranslateDocxZipArchiveAsync"/>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task<bool> TranslateDocxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, CancellationToken, Task<string>> translate,
@@ -34,8 +44,18 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a PPTX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslatePptxZipArchiveAsync(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        return await TranslatePptxZipArchiveAsync(
+            zipArchive,
+            async (text, cancellationToken) => await translate(text));
+    }
+
+    /// <inheritdoc cref="TranslatePptxZipArchiveAsync"/>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task<bool> TranslatePptxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, CancellationToken, Task<string>> translate,
@@ -57,8 +77,18 @@ public static class OoxmlTranslator
     /// </summary>
     /// <param name="zipArchive">The OOXML ZipArchive.</param>
     /// <param name="translate">The callback used for text translation.</param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns><c>true</c> if the ZipArchive is a XLSX one; otherwise, <c>false</c>.</returns>
+    public static async Task<bool> TranslateXlsxZipArchiveAsync(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        return await TranslateXlsxZipArchiveAsync(
+            zipArchive,
+            async (text, cancellationToken) => await translate(text));
+    }
+
+    /// <inheritdoc cref="TranslateXlsxZipArchiveAsync"/>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task<bool> TranslateXlsxZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, CancellationToken, Task<string>> translate,
@@ -87,11 +117,21 @@ public static class OoxmlTranslator
     /// The OOXML ZipArchive to translate (opened in ZipArchiveMode.Update).
     /// </param>
     /// <param name="translate">The callback used for text translation.</param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
+    public static async Task TranslateZipArchiveAsync(
+        ZipArchive zipArchive,
+        Func<string, Task<string>> translate)
+    {
+        await TranslateZipArchiveAsync(
+            zipArchive,
+            async (text, cancellationToken) => await translate(text));
+    }
+
+    /// <inheritdoc cref="TranslateZipArchiveAsync"/>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task TranslateZipArchiveAsync(
         ZipArchive zipArchive,
         Func<string, CancellationToken, Task<string>> translate,
@@ -114,7 +154,6 @@ public static class OoxmlTranslator
     /// <param name="sourcePath">The source document path.</param>
     /// <param name="targetPath">The target document path.</param>
     /// <param name="translate">The callback used for text translation.</param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
@@ -122,6 +161,19 @@ public static class OoxmlTranslator
     /// <exception cref="UnsupportedFileFormatException">
     /// Thrown when the source document format is not supported.
     /// </exception>
+    public static async Task TranslateDocumentAsync(
+        string sourcePath,
+        string targetPath,
+        Func<string, Task<string>> translate)
+    {
+        await TranslateDocumentAsync(
+            sourcePath,
+            targetPath,
+            async (text, cancellationToken) => await translate(text));
+    }
+
+    /// <inheritdoc cref="TranslateDocumentAsync"/>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task TranslateDocumentAsync(
         string sourcePath,
         string targetPath,
