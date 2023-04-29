@@ -68,4 +68,44 @@ public class TranslateOoxmlClientLibTests
         await Assert.ThrowsExceptionAsync<FileNotFoundException>(
             async () => await Test_TranslateDocumentAsync("Test.html"));
     }
+
+    private static async Task Test_Cancelling_TranslateDocumentAsync(
+        string filename)
+    {
+        if (!Directory.Exists(outputDir))
+            Directory.CreateDirectory(outputDir);
+
+        using var cts = new CancellationTokenSource();
+        var task = TranslateDocumentAsync(
+            inputDir + filename,
+            outputDir + filename,
+            "DE",
+            "https://localhost:7261/translate-ooxml",
+            cts.Token);
+
+        await Task.Delay(10);
+        cts.Cancel();
+        await Assert.ThrowsExceptionAsync<TaskCanceledException>(async () => await task);
+
+        File.Delete(outputDir + filename);
+
+    }
+
+    [TestMethod]
+    public async Task Test_Docx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.docx");
+    }
+
+    [TestMethod]
+    public async Task Test_Pptx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.pptx");
+    }
+
+    [TestMethod]
+    public async Task Test_Xlsx_Cancelling_TranslateDocumentAsync()
+    {
+        await Test_Cancelling_TranslateDocumentAsync("Test.xlsx");
+    }
 }

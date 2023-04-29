@@ -22,6 +22,7 @@ public static class TranslateOoxmlClientLib
     /// <param name="targetPath">The target document path.</param>
     /// <param name="targetLanguage">The target language.</param>
     /// <param name="serviceUrl">The TranslateOoxml service URL.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     /// <exception cref="FileNotFoundException">
     /// Thrown when the source document does not exist.
@@ -30,7 +31,8 @@ public static class TranslateOoxmlClientLib
         string sourcePath,
         string targetPath,
         string targetLanguage,
-        string serviceUrl)
+        string serviceUrl,
+        CancellationToken cancellationToken = default)
     {
         if (!Exists(sourcePath))
             throw new FileNotFoundException(null, sourcePath);
@@ -38,14 +40,18 @@ public static class TranslateOoxmlClientLib
         using var sourceStream = File.OpenRead(sourcePath);
         using var requestHttpContent = new StreamContent(sourceStream);
         using var response =
-            await HttpClient.PostAsync(serviceUrl + '/' + targetLanguage, requestHttpContent)
+            await HttpClient.PostAsync(
+                serviceUrl + '/' + targetLanguage,
+                requestHttpContent,
+                cancellationToken)
             .ConfigureAwait(false);
 
         if (response.IsSuccessStatusCode)
         {
             using var responseHttpContent = response.Content;
             using var targetStream = File.Create(targetPath);
-            await responseHttpContent.CopyToAsync(targetStream).ConfigureAwait(false);
+            await responseHttpContent.CopyToAsync(targetStream, cancellationToken)
+                .ConfigureAwait(false);
         }
         return response.StatusCode;
     }
