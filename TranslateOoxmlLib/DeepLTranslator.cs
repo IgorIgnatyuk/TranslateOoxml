@@ -42,8 +42,7 @@ public static class DeepLTranslator
         string targetLanguage,
         CancellationToken cancellationToken = default)
     {
-        var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey);
-        if (deepLAuthKey == null)
+        var deepLAuthKey = GetEnvironmentVariable(DeepLAuthKey) ??
             throw new DeepLTranslatorException("Environment variable DEEPL_AUTH_KEY is not set");
 
         HttpClient.DefaultRequestHeaders.Authorization =
